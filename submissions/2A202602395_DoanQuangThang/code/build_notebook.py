@@ -84,7 +84,7 @@ Notebook chạy đầy đủ bài lab, không chứa số liệu giả. Mọi l�
 
 **Code tải trực tiếp bằng git clone**, cố định commit đã tạo kết quả phiên bản 5. Mặc định `RUN_EXPERIMENTS = False` để xem kết quả đã hoàn tất. Đổi thành `True` khi muốn chạy thí nghiệm; khi đó khôi phục 15 lần huấn luyện từ dataset checkpoint riêng tư trước khi tiếp tục.
 
-**Luồng:** kiểm tra dữ liệu → 5 backbone → 3 trục huấn luyện và EMA/kết hợp → 7 phương pháp suy luận ngoài mốc → chung kết và mốc với seed 0/1/2 → Excel, biểu đồ, báo cáo và đánh giá bằng eval.py gốc.
+**Luồng:** kiểm tra dữ liệu → 5 backbone → 3 trục huấn luyện và EMA/kết hợp → 6 phương pháp suy luận ngoài mốc (gộp BN không áp dụng cho ConvNeXt) → chung kết và mốc với seed 0/1/2 → Excel, biểu đồ, báo cáo và đánh giá bằng eval.py gốc.
 
 Bật **GPU** và **Internet**. Cấu hình nền 10 epoch, batch 32 cho mọi backbone. Chạy toàn bộ có thể cần nhiều giờ; thời gian thực được lưu theo từng epoch. Không thay đổi cấu hình sau khi đã xem test.
 
@@ -98,15 +98,34 @@ Nguồn: https://github.com/conanWinner/K4-DAY02-DoanQuangThang-2A202602395
 - I00–I07: một ảnh, lật/gộp xác suất, lật/gộp logit, 5 crop, độ phân giải 256, temperature scaling, AMP và gộp BN.
 - F01/T00: cấu hình cuối và nền với ≥3 seed; R01 nếu có phương pháp p95 ≤100 ms. Nhiệt độ khớp trên val của từng seed trước test. Mỗi cấu hình/seed dùng một lần forward trên test (TTA gồm các view đã khai báo); tái sử dụng logits cho so sánh hiệu chuẩn.
 - Báo cáo sinh từ log, prediction CSV; eval.py gốc tính lại toàn bộ test.
-'''), cell('code', execute), cell('markdown', '## 6. Xem kết quả thật\nTải `lab_output` trong Output. Dataset và checkpoint không đưa lên Git.'), cell('code', '''from IPython.display import display, Markdown
+'''), cell('code', execute), cell('markdown', '## 6. Xem kết quả thật\nChế độ xem dùng kết quả phiên bản 5 đã lưu trên Git; chế độ chạy dùng lab_output mới. Đường dẫn file được in bên dưới.'), cell('code', '''from IPython.display import display, Markdown
 RESULT_DIR = OUTPUT_DIR if RUN_EXPERIMENTS else SUBMISSION_DIR
 STATUS_FILE = RESULT_DIR / 'execution_status.json' if RUN_EXPERIMENTS else RESULT_DIR / 'logs/execution_status.json'
 print('Result origin:', 'current execution' if RUN_EXPERIMENTS else 'completed Kaggle version 5, archived in Git')
 print(STATUS_FILE.read_text())
-display(Markdown((RESULT_DIR / 'report.md').read_text()))
 print('Excel:', RESULT_DIR / 'results.xlsx')
 print('Prediction files:', len(list((RESULT_DIR / 'predictions').glob('*.csv'))))
 ''')]
+    # Each table is read from the verified workbook, never reconstructed from constants.
+    sections = [
+        ('6.1. So sánh backbone', 'Backbones', '5 backbone, cùng công thức nền; chọn theo validation.'),
+        ('6.2. Công thức huấn luyện', 'Training', 'Các trục khởi tạo, augmentation, loss và các thử nghiệm bổ sung.'),
+        ('6.3. Phương pháp suy luận', 'Inference', 'Chất lượng trên validation, hiệu chuẩn và chi phí suy luận.'),
+        ('6.4. Kết quả cuối qua ba seed', 'Final', 'Kết quả test sau khi chốt cấu hình; có dòng tổng hợp mean và std.'),
+        ('6.5. Chỉ số từng lớp', 'PerClass', 'Precision, recall và F1 của cấu hình cuối và mốc.'),
+        ('6.6. Độ trễ', 'Latency', 'p50/p95/p99 và thông lượng theo batch, GPU và dtype.'),
+        ('6.7. Tổng hợp cấu hình', 'Summary', 'Bảng tổng hợp từ workbook đã xuất sau thí nghiệm.'),
+    ]
+    cells.append(cell('code', "import pandas as pd\npd.set_option('display.max_columns', None)\npd.set_option('display.precision', 4)\n"))
+    for title, sheet, explanation in sections:
+        cells.extend([cell('markdown', f'## {title}\n{explanation}'),
+                      cell('code', f"display(pd.read_excel(RESULT_DIR / 'results.xlsx', sheet_name={sheet!r}))\n")])
+    cells.extend([
+        cell('markdown', '## 6.8. Biểu đồ và ảnh phân tích\nẢnh lấy từ kết quả thật của phiên chạy tương ứng.'),
+        cell('code', "from IPython.display import Image\nfor filename in ('class_distribution.png', 'accuracy_latency.png', 'confusion_matrix.png', 'misclassified_images.png'):\n    print(filename)\n    display(Image(filename=str(RESULT_DIR / filename)))\n"),
+        cell('markdown', '## 7. Báo cáo đầy đủ\nNội dung gốc sinh từ log chạy thật, gồm hạn chế và phân tích kết quả.'),
+        cell('code', "display(Markdown((RESULT_DIR / 'report.md').read_text()))\n"),
+    ])
     nb = {'nbformat': 4, 'nbformat_minor': 5, 'metadata': {
         'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'},
         'language_info': {'name': 'python'}, 'deepweeds_source_revision': revision, 'deepweeds_source_sha256': hashes}, 'cells': cells}

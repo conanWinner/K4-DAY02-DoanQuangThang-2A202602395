@@ -8,7 +8,7 @@ Nguồn phục hồi riêng tư: [checkpoint phiên bản 3](https://www.kaggle.
 
 ## Cách chạy
 
-Notebook `code/lab_day2.ipynb` dùng `git clone`, checkout commit `902702cea102fb1605094b2813d32266a4914c3c` và dùng trực tiếp code Python cùng `eval.py` gốc. Bật Internet. Mặc định `RUN_EXPERIMENTS = False` mở kết quả đã chạy xong ở phiên bản 5; đổi thành `True` và bật GPU để chạy thí nghiệm. Notebook không chứa PAYLOAD. Bản đưa lên Kaggle nằm ở `kaggle/deepweeds-day2/` từ thư mục gốc repo.
+Notebook `code/lab_day2.ipynb` dùng `git clone`, checkout commit `902702cea102fb1605094b2813d32266a4914c3c` và dùng trực tiếp code Python cùng `eval.py` gốc. Bật Internet. Mặc định `RUN_EXPERIMENTS = False` mở kết quả đã chạy xong ở phiên bản 5; đổi thành `True` và bật GPU để chạy thí nghiệm. Notebook không chứa PAYLOAD. Các ô kết quả tách riêng bảy bảng Excel, biểu đồ phân bố lớp, đánh đổi độ trễ, ma trận nhầm lẫn và ảnh lỗi để xem trực tiếp trên Kaggle. Bản đưa lên Kaggle nằm ở `kaggle/deepweeds-day2/` từ thư mục gốc repo.
 
 - Dùng nguyên DeepWeeds fold 0: tải ảnh Zenodo và kiểm MD5; tải CSV từ GitHub tác giả. File split gốc chỉ có `Filename,Label`; code không yêu cầu cột Species. Nguồn hiện có một nhãn khác giữa catalog và fold (`20170714-110407-3.jpg`: fold=0, catalog=1); giữ nguyên nhãn fold theo đề và ghi `catalog_label_discrepancies.json`/checksum CSV vào báo cáo.
 - Nền chung: 10 epoch, batch 32, ảnh 224, ImageNet finetune, AdamW, warmup một epoch + cosine, CE, AMP; no weight decay cho norm/bias. Chuẩn hoá theo trọng số thực sự tải.
