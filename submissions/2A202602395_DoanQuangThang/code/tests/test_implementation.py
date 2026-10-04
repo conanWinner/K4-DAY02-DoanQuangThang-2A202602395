@@ -258,6 +258,34 @@ class TestImplementation(unittest.TestCase):
                 with patch('deepweeds_lab.experiments.predict_strategy',side_effect=AssertionError('Completed inference must not be repeated')):
                     self.assertEqual(inference_trials(cfg,root),rows)
 
+    def test_private_recovery_downloads_verify_hashes_and_hide_urls(self):
+        from deepweeds_lab.recovery import restore_download_manifest
+        import io, hashlib
+        payload=b'SYNTHETIC checkpoint download'
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder); manifest=root/'manifest.json'; staging=root/'staging'
+            entry={'path':'lab_output/checkpoint.pt','size':len(payload),
+                   'sha256':hashlib.sha256(payload).hexdigest(),
+                   'url':'https://www.kaggleusercontent.com/private?token=SYNTHETIC_SECRET'}
+            record={'source':'thngonquang/deepweeds-day2','version':3,'files':[entry]}
+            manifest.write_text(json.dumps(record))
+            with patch('deepweeds_lab.recovery.urlopen',return_value=io.BytesIO(payload)) as download:
+                restore_download_manifest(manifest,staging)
+                self.assertEqual((staging/entry['path']).read_bytes(),payload)
+                restore_download_manifest(manifest,staging)
+                self.assertEqual(download.call_count,1)
+            with patch('deepweeds_lab.recovery.urlopen',side_effect=RuntimeError(entry['url'])):
+                with self.assertRaisesRegex(RuntimeError,'refresh private recovery links') as error:
+                    restore_download_manifest(manifest,root/'failed')
+                self.assertNotIn('SYNTHETIC_SECRET',str(error.exception))
+            entry['sha256']='0'*64; manifest.write_text(json.dumps(record))
+            with patch('deepweeds_lab.recovery.urlopen',return_value=io.BytesIO(payload)):
+                with self.assertRaisesRegex(ValueError,'checksum mismatch'):
+                    restore_download_manifest(manifest,root/'bad_hash')
+            entry['path']='../escape'; manifest.write_text(json.dumps(record))
+            with self.assertRaisesRegex(ValueError,'Unsafe recovery manifest'):
+                restore_download_manifest(manifest,root/'unsafe')
+
     def test_recovery_requires_complete_evidence_and_never_replaces_data(self):
         from deepweeds_lab.recovery import restore_completed_training, restore_kaggle_input
         with tempfile.TemporaryDirectory() as folder:

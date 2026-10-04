@@ -4,6 +4,10 @@ import hashlib
 import json
 import shutil
 import zipfile
+from concurrent.futures import ThreadPoolExecutor
+from urllib.request import urlopen
+from urllib.parse import urlparse
+from uuid import uuid4
 from .train import write_json
 
 
@@ -63,10 +67,58 @@ def file_sha256(path):
     return digest.hexdigest()
 
 
+def restore_download_manifest(manifest_path, staging):
+    """Download historical output from a private manifest, checking every file's hash.
+
+    Signed URLs stay in the private input dataset and are never included in logs or Git.
+    The archive dataset provides a permanent recovery source once uploaded.
+    """
+    manifest = json.loads(Path(manifest_path).read_text())
+    if manifest.get('source') != 'thngonquang/deepweeds-day2' or manifest.get('version') != 3:
+        raise ValueError('Unexpected recovery source')
+    staging = Path(staging)
+    entries = manifest['files']
+    if len({entry['path'] for entry in entries}) != len(entries):
+        raise ValueError('Duplicate recovery paths')
+    for entry in entries:
+        if not (staging / entry['path']).resolve().is_relative_to(staging.resolve()):
+            raise ValueError('Unsafe recovery manifest path')
+        url = urlparse(entry['url'])
+        if url.scheme != 'https' or url.hostname not in ('www.kaggleusercontent.com', 'storage.googleapis.com'):
+            raise ValueError('Unexpected recovery download host')
+    def fetch(entry):
+        target = staging / entry['path']
+        if target.exists():
+            if target.stat().st_size != entry['size'] or file_sha256(target) != entry['sha256']:
+                raise ValueError(f'Refusing to overwrite different recovered data: {target}')
+            return
+        target.parent.mkdir(parents=True, exist_ok=True)
+        partial = target.with_name(target.name + '.partial.' + uuid4().hex)
+        try:
+            with urlopen(entry['url'], timeout=120) as response, partial.open('xb') as stream:
+                shutil.copyfileobj(response, stream, length=4 << 20)
+        except Exception:
+            raise RuntimeError(f'Recovery download failed for {entry["path"]}; refresh private recovery links') from None
+        if partial.stat().st_size != entry['size'] or file_sha256(partial) != entry['sha256']:
+            raise ValueError(f'Recovery checksum mismatch: {entry["path"]}')
+        if target.exists():
+            raise ValueError(f'Refusing to replace existing recovery artifact: {target}')
+        partial.rename(target)
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        list(pool.map(fetch, entries))
+    print('Historical output downloads verified:', len(entries), 'files', flush=True)
+    return staging
+
+
 def restore_kaggle_input(destination, input_dir='/kaggle/input', required=True):
     candidates = [p.parent for p in Path(input_dir).rglob('training_results.json')
                   if (p.parent / 'backbone_results.json').is_file()]
     archives = list(Path(input_dir).rglob('lab_output_v3.zip'))
+    manifests = list(Path(input_dir).rglob('recovery_downloads_v3.json'))
+    if not candidates and not archives and len(manifests) == 1:
+        staging = restore_download_manifest(manifests[0], Path(destination).parent / 'recovered_version3')
+        candidates = [p.parent for p in staging.rglob('training_results.json')
+                      if (p.parent / 'backbone_results.json').is_file()]
     if not candidates and len(archives) == 1:
         staging = Path(destination).parent / 'recovered_version3'
         with zipfile.ZipFile(archives[0]) as archive:
