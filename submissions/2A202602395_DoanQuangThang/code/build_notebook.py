@@ -47,6 +47,9 @@ import torch
 from deepweeds_lab.train import write_json
 OUTPUT_DIR = Path('/kaggle/working/lab_output')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+from deepweeds_lab.recovery import restore_kaggle_input
+# Version 3 completed all training before the inference-row bug. Resume its immutable output.
+restore_kaggle_input(OUTPUT_DIR, required=True)
 versions = {name: metadata.version(name) for name in ('torch', 'torchvision', 'timm', 'numpy', 'pandas', 'scipy', 'matplotlib', 'openpyxl', 'fvcore')}
 versions.update(python=platform.python_version(), gpu=torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')
 write_json(OUTPUT_DIR / 'environment.json', versions)
@@ -71,6 +74,8 @@ except Exception as exc:
     cells = [cell('markdown', '''# Lab Day 2 — DeepWeeds | Doan Quang Thang — 2A202602395
 
 Notebook chạy đầy đủ bài lab, không chứa số liệu giả. Mọi lựa chọn dựa trên val; chỉ mở test sau khi chốt cấu hình.
+
+**Bản sửa lỗi:** tự khôi phục output phiên bản 3, giữ nguyên checkpoint của 5 backbone và 10 cấu hình đã chạy. Nếu không tìm thấy đủ output, dừng để tránh chạy lại toàn bộ.
 
 **Luồng:** kiểm tra dữ liệu → 5 backbone → 3 trục huấn luyện và EMA/kết hợp → 7 phương pháp suy luận ngoài mốc → chung kết và mốc với seed 0/1/2 → Excel, biểu đồ, báo cáo và đánh giá bằng eval.py gốc.
 

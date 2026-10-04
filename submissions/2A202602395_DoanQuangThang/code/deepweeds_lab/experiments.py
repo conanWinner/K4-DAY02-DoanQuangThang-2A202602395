@@ -77,10 +77,13 @@ def inference_trials(cfg, root):
             np.savez(root / f'I{i:02d}_val_logits.npz', filenames=names, labels=y, logits=z)
             timing = strategy_latency(measured_model, 1, cfg.img_size, method, device=cfg.device, iters=50, temperature=temperature)
             timing_batch = strategy_latency(measured_model, 32, cfg.img_size, method, device=cfg.device, iters=50, temperature=temperature)
-            row = dict(exp_id=f'I{i:02d}', method=method, checkpoint=str(run_dir(cfg) / 'best.pt'),
-                       K=5 if method == 'fivecrop' else 2 if method.startswith('hflip') else 1,
-                       T=temperature, **metric_row(y, probs), **timing,
-                       throughput_batch32=timing_batch['images_per_s'], latency_batch32=timing_batch)
+            # Benchmark metadata includes method too: merge once, then set experiment fields.
+            row = {**timing, **metric_row(y, probs),
+                   'exp_id': f'I{i:02d}', 'method': method,
+                   'checkpoint': str(run_dir(cfg) / 'best.pt'),
+                   'K': 5 if method == 'fivecrop' else 2 if method.startswith('hflip') else 1,
+                   'T': temperature, 'throughput_batch32': timing_batch['images_per_s'],
+                   'latency_batch32': timing_batch}
             if method == 'fused':
                 row['fusion_max_abs_error'] = difference
             rows.append(row); write_json(path, rows)

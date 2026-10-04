@@ -237,6 +237,58 @@ class TestImplementation(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'filenames'):
                 compare_catalog(frames, original.iloc[:-1], folder)
 
+    def test_inference_trials_merge_real_benchmark_schema_and_resume(self):
+        from deepweeds_lab.experiments import inference_trials
+        frames = tuple(pd.DataFrame({'Filename':[f'{split}{i}.jpg' for i in range(9)], 'Label':range(9)}) for split in ('train','val','test'))
+        def loader(cfg, df, method):
+            return [(torch.randn(9,3,32,32), torch.arange(9), df.Filename.tolist())]
+        def timing(model, batch_size, img_size, method='single', **kw):
+            return dict(method=method, gpu='SYNTHETIC CPU', dtype='fp32', batch=batch_size,
+                        img_size=img_size, p50=1., p95=2., p99=3., mean=1., n=50, warmup=10,
+                        images_per_s=float(batch_size*1000), torch=torch.__version__, preprocessing=False,
+                        fused_bn=method=='fused', temperature=kw.get('temperature',1.))
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder); cfg=train.Config(img_size=16, batch_size=9, device='cpu', num_workers=0)
+            with patch.object(dataset,'load_split',return_value=frames), patch('deepweeds_lab.experiments.load_checkpoint_model',side_effect=lambda c:Tiny().eval()), patch('deepweeds_lab.experiments.strategy_loader',side_effect=loader), patch('deepweeds_lab.experiments.strategy_latency',side_effect=timing):
+                rows=inference_trials(cfg,root)
+                self.assertEqual(len(rows),8)
+                self.assertEqual(len({r['method'] for r in rows}),8)
+                self.assertTrue(all(r['n']==50 and r['latency_batch32']['batch']==32 for r in rows))
+                self.assertEqual(json.loads((root/'inference_results.json').read_text()), rows)
+                with patch('deepweeds_lab.experiments.predict_strategy',side_effect=AssertionError('Completed inference must not be repeated')):
+                    self.assertEqual(inference_trials(cfg,root),rows)
+
+    def test_recovery_requires_complete_evidence_and_never_replaces_data(self):
+        from deepweeds_lab.recovery import restore_completed_training, restore_kaggle_input
+        with tempfile.TemporaryDirectory() as folder:
+            base=Path(folder); source=base/'input'/'previous'/'lab_output'; source.mkdir(parents=True)
+            for name,ids in [('backbone_results.json',[f'B{i:02d}' for i in range(1,6)]),('training_results.json',[f'T{i:02d}' for i in range(10)])]:
+                rows=[]
+                for exp_id in ids:
+                    cfg={'exp_id':exp_id,'seed':0}; rows.append(dict(exp_id=exp_id,seed=0,config=cfg))
+                    runfolder=source/'runs'/exp_id/'seed0'; runfolder.mkdir(parents=True)
+                    for filename in ('best.pt','val_logits.npz','history.csv','pretrained.json'):
+                        (runfolder/filename).write_text('SYNTHETIC recovery fixture')
+                    for filename in ('config.json','result.json'):
+                        (runfolder/filename).write_text(json.dumps(cfg))
+                (source/name).write_text(json.dumps(rows))
+            (source/'execution_error.json').write_text(json.dumps({'type':'TypeError','message':'synthetic prior failure'}))
+            destination=base/'working'/'lab_output'
+            result=restore_kaggle_input(destination,base/'input')
+            self.assertEqual((result['completed_backbones'],result['completed_training_configs']),(5,10))
+            self.assertTrue((destination/'prior_errors/version3_execution_error.json').exists())
+            self.assertFalse((destination/'execution_error.json').exists())
+            self.assertEqual(restore_completed_training(source,destination)['copied_files'],0)
+            protected=destination/'runs/B01/seed0/best.pt'; protected.write_text('USER DATA DO NOT REPLACE')
+            with self.assertRaisesRegex(ValueError,'Refusing to overwrite'):
+                restore_completed_training(source,destination)
+            self.assertEqual(protected.read_text(),'USER DATA DO NOT REPLACE')
+            with self.assertRaisesRegex(RuntimeError,'refusing full retraining'):
+                restore_kaggle_input(base/'empty',base/'missing')
+            with self.assertRaises(ValueError):
+                (source/'backbone_results.json').write_text('[]')
+                restore_completed_training(source,base/'other')
+
 
 if __name__ == '__main__':
     unittest.main()

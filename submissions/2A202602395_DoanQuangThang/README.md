@@ -1,5 +1,7 @@
 # Lab Day 2 — DeepWeeds | Doan Quang Thang — 2A202602395
 
+**Bản sửa lỗi suy luận:** khắc phục trường `method` bị truyền trùng khi ghép thông tin đo độ trễ. Notebook hiện gắn output phiên bản 3 và tự kiểm tra/khôi phục đầy đủ 5 backbone + 10 cấu hình huấn luyện trước khi tiếp tục; thiếu checkpoint sẽ dừng, không tự train lại. Lỗi cũ được giữ trong `prior_errors/`, môi trường cũ ở `prior_environment/`.
+
 Notebook riêng tư: https://www.kaggle.com/code/thngonquang/deepweeds-day2
 
 ## Cách chạy
