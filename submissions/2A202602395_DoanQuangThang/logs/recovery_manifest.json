@@ -1,0 +1,8 @@
+{
+  "source": "/kaggle/working/recovered_version3/lab_output",
+  "completed_backbones": 5,
+  "completed_training_configs": 10,
+  "copied_files": 132,
+  "reused_files": 0,
+  "policy": "reuse completed runs; test selection unchanged"
+}

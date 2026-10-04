@@ -1,0 +1,4 @@
+{
+  "backbone": "convnext_tiny",
+  "reason": "No BatchNorm2d in architecture"
+}

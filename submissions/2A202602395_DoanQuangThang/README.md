@@ -34,7 +34,11 @@ Kaggle lưu trong `/kaggle/working/lab_output/`:
 | `environment.json` | Phiên bản thực của Python, torch, timm và thư viện, tên GPU |
 | `execution_status.json`, `execution_error.json` (nếu lỗi) | Tiến độ chạy và bằng chứng lỗi |
 
-**Chưa có số liệu DeepWeeds trong repo trước khi Kaggle chạy xong.** Không tạo bảng hoặc báo cáo bằng số giả. Sau khi chạy, tải các file nhỏ ở trên vào thư mục bài nộp; giữ ảnh dữ liệu và checkpoint ngoài Git. Code tự tạo README trong output để đi cùng báo cáo.
+**Đã chạy xong trên Kaggle phiên bản 5 (`COMPLETE`) và đã lấy kết quả thật về Git.** Cấu hình cuối: ConvNeXt-Tiny, label smoothing 0.1, suy luận 5 crop, temperature khớp trên validation. Test fold 0 gồm 3.507 ảnh, seed 0/1/2: macro-F1 **0.9746 ± 0.0039**, top-1 **97.97% ± 0.41 điểm phần trăm**, ECE **0.0058 ± 0.0019**. Công cụ `eval.py` gốc tự chấm **mục I: 17/20**; đây không phải điểm toàn bài hay điểm giảng viên xác nhận. Chênh macro-F1 so với nền khoảng +0.0025, nhỏ hơn nhiễu giữa các seed; báo cáo không kết luận chắc chắn tốt hơn.
+
+Trong bản Git, `report.md`, `results.xlsx`, `curves/` và `predictions/` nằm ngay ở thư mục này. Các JSON môi trường/cấu hình chốt/kết quả và đánh giá nằm trong `logs/`; cấu hình, nguồn trọng số và history ở `logs/training/<exp_id>/seed<k>/`; CSV fold gốc ở `logs/labels/`. Tên đường dẫn trong báo cáo gốc tương ứng với Output Kaggle. Checkpoint và toàn bộ dữ liệu ảnh vẫn nằm ngoài Git.
+
+Đã đối chiếu CSV bằng `eval.py` gốc và kiểm tra số trong báo cáo/Excel: 35 file dự đoán, 19 history đủ 10 epoch, 23 biểu đồ, 7 sheet Excel. Bằng chứng tại `logs/local_verification.json`; nguồn và SHA-256 từng sản phẩm trong `logs/artifact_manifest.json`. Notebook lưu trên Kaggle có toàn bộ cell source và mã code đóng gói khớp với notebook Git; 18 kiểm tra code đã đạt trên GPU Kaggle trước thí nghiệm.
 
 ## Code và kiểm tra
 

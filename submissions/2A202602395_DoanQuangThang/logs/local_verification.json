@@ -1,0 +1,77 @@
+{
+  "status": "passed",
+  "evaluator_sha256": "7a9f86781ac219747ea502b642db8fa8ff2e8d5796fdad9a658729546c0f4cc0",
+  "prediction_files": 35,
+  "training_histories": 19,
+  "curves": 23,
+  "excel_sheets": [
+    "Backbones",
+    "Training",
+    "Inference",
+    "Final",
+    "PerClass",
+    "Latency",
+    "Summary"
+  ],
+  "summaries": {
+    "F01": {
+      "macro_f1": {
+        "mean": 0.9745662298954483,
+        "std": 0.003911714513636923
+      },
+      "top1": {
+        "mean": 0.9796597281627221,
+        "std": 0.004125564948999286
+      },
+      "balanced_acc": {
+        "mean": 0.974399299093334,
+        "std": 0.0032046675991531538
+      },
+      "ece": {
+        "mean": 0.005820559558026874,
+        "std": 0.0018773000942931498
+      }
+    },
+    "T00": {
+      "macro_f1": {
+        "mean": 0.9720766037971984,
+        "std": 0.0034758038204016073
+      },
+      "top1": {
+        "mean": 0.9785191521718467,
+        "std": 0.0028561884234039694
+      },
+      "balanced_acc": {
+        "mean": 0.9721537653445003,
+        "std": 0.005234545986168811
+      },
+      "ece": {
+        "mean": 0.012793669202547245,
+        "std": 0.0018976315569816165
+      }
+    },
+    "R01": {
+      "macro_f1": {
+        "mean": 0.9745662298954483,
+        "std": 0.003911714513636923
+      },
+      "top1": {
+        "mean": 0.9796597281627221,
+        "std": 0.004125564948999286
+      },
+      "balanced_acc": {
+        "mean": 0.974399299093334,
+        "std": 0.0032046675991531538
+      },
+      "ece": {
+        "mean": 0.005820559558026874,
+        "std": 0.0018773000942931498
+      }
+    }
+  },
+  "checks": "complete Kaggle run; official folds and metrics; Excel/report agreement; preserved artifact counts",
+  "official_grade_matches_kaggle": true,
+  "grade_I_total": 17,
+  "grade_I_max": 20,
+  "saved_kaggle_notebook_sources_match_git": true
+}

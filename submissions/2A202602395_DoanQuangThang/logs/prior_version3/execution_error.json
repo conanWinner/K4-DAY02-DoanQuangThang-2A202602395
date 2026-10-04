@@ -1,0 +1,6 @@
+{
+  "status": "error",
+  "type": "TypeError",
+  "message": "dict() got multiple values for keyword argument 'method'",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/ipykernel_23/2176979683.py\", line 6, in <cell line: 0>\n    selection = execute(str(OUTPUT_DIR), epochs=10, batch_size=32, seeds=(0, 1, 2))\n  File \"/kaggle/working/deepweeds_source/deepweeds_lab/experiments.py\", line 214, in execute\n    inference = inference_trials(selected_cfg, root)\n  File \"/kaggle/working/deepweeds_source/deepweeds_lab/experiments.py\", line 80, in inference_trials\n    row = dict(exp_id=f'I{i:02d}', method=method, checkpoint=str(run_dir(cfg) / 'best.pt'),\n               K=5 if method == 'fivecrop' else 2 if method.startswith('hflip') else 1,\n               T=temperature, **metric_row(y, probs), **timing,\n               throughput_batch32=timing_batch['images_per_s'], latency_batch32=timing_batch)\nTypeError: dict() got multiple values for keyword argument 'method'\n"
+}

@@ -1,0 +1,19 @@
+{
+  "exp_id": "B01",
+  "seed": 0,
+  "backbone": "resnet50",
+  "init": "finetune",
+  "pretrained_tag": "a1_in1k",
+  "pretrained_architecture": "resnet50",
+  "params_m": 23.526473,
+  "gmac": 4.109483008,
+  "gmac_tool": "fvcore (unsupported operations printed)",
+  "best_epoch": 10,
+  "epochs": 10,
+  "img_size": 224,
+  "train_seconds_per_epoch": 54.43337936989999,
+  "macro_f1_val": 0.8426929904251926,
+  "top1_val": 0.8854612967723507,
+  "balanced_acc_val": 0.8321555524945662,
+  "ece_val": 0.010442792595082039
+}

@@ -1,0 +1,19 @@
+{
+  "exp_id": "B02",
+  "seed": 0,
+  "backbone": "resnext50_32x4d",
+  "init": "finetune",
+  "pretrained_tag": "a1h_in1k",
+  "pretrained_architecture": "resnext50_32x4d",
+  "params_m": 22.998345,
+  "gmac": 4.25735168,
+  "gmac_tool": "fvcore (unsupported operations printed)",
+  "best_epoch": 10,
+  "epochs": 10,
+  "img_size": 224,
+  "train_seconds_per_epoch": 74.00315093340001,
+  "macro_f1_val": 0.8782792094663512,
+  "top1_val": 0.9054555841188232,
+  "balanced_acc_val": 0.8802276365747704,
+  "ece_val": 0.018349516270128676
+}

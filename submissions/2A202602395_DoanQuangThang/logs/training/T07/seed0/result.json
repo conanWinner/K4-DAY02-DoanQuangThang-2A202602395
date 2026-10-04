@@ -1,0 +1,19 @@
+{
+  "exp_id": "T07",
+  "seed": 0,
+  "backbone": "convnext_tiny",
+  "init": "finetune",
+  "pretrained_tag": "in12k_ft_in1k",
+  "pretrained_architecture": "convnext_tiny",
+  "params_m": 27.827049,
+  "gmac": 4.469676288,
+  "gmac_tool": "fvcore (unsupported operations printed)",
+  "best_epoch": 10,
+  "epochs": 10,
+  "img_size": 224,
+  "train_seconds_per_epoch": 65.80199416530004,
+  "macro_f1_val": 0.9680707889147837,
+  "top1_val": 0.9748643244787204,
+  "balanced_acc_val": 0.9735010956053292,
+  "ece_val": 0.015260576882877882
+}

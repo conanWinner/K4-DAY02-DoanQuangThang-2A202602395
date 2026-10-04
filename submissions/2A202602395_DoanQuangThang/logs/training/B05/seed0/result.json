@@ -1,0 +1,19 @@
+{
+  "exp_id": "B05",
+  "seed": 0,
+  "backbone": "mobilenetv3_large_100",
+  "init": "finetune",
+  "pretrained_tag": "ra_in1k",
+  "pretrained_architecture": "mobilenetv3_large_100",
+  "params_m": 4.213561,
+  "gmac": 0.224167936,
+  "gmac_tool": "fvcore (unsupported operations printed)",
+  "best_epoch": 9,
+  "epochs": 10,
+  "img_size": 224,
+  "train_seconds_per_epoch": 29.641299540199952,
+  "macro_f1_val": 0.8565254868000336,
+  "top1_val": 0.8926021136818052,
+  "balanced_acc_val": 0.8469611806941612,
+  "ece_val": 0.02327511665139719
+}

@@ -1,0 +1,11 @@
+{
+  "policy": "Use unmodified official fold CSV labels; catalog is used for class names only",
+  "count": 1,
+  "differences": [
+    {
+      "Filename": "20170714-110407-3.jpg",
+      "Label_split": 0,
+      "Label_catalog": 1
+    }
+  ]
+}

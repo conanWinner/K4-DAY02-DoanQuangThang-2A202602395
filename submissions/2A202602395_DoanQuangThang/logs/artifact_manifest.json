@@ -1,0 +1,726 @@
+{
+  "notebook": "thngonquang/deepweeds-day2",
+  "completed_version": 5,
+  "files": {
+    "logs/training/B01/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "5265a6c98b613bb3c2a9e82ac0b20d3131e03cea2e1d55f69b7004e3249ba7e7"
+    },
+    "logs/training/B01/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "9a8244a5ad603f6dcc52e74079aef6289a4f50237569684d3c40008cfb91e8fe"
+    },
+    "logs/training/B01/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "c8631cd028dc7455660a4de0cd4071504588812d90b968106b0c4e570dead56f"
+    },
+    "logs/training/B01/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "d9dbfb772fda8adf8def89c248d6b65771235f3af979da77a25dd63fd1ac0cea"
+    },
+    "curves/B01_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "acc19302856b336100cc1a433a267581e8149528f910ea961f8179095519e5c4"
+    },
+    "predictions/B01_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "01d06d545d1454a90cef11389c3f2a6d4b38e59b1a627460c0b603dbef77b1cf"
+    },
+    "logs/training/B02/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "ac3efed8d11c2a20eb7b2a6f725a325b1663a38e56c82760f43c11c176831930"
+    },
+    "logs/training/B02/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "5eb879052bd9d65dd0e223720bc084d2bf6847cbb194a39135241e95f1adf1b9"
+    },
+    "logs/training/B02/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "87b5344816374f55728016b78b16e8389de53bbd081e4dd5be48b6876c796dc5"
+    },
+    "logs/training/B02/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "58064eea110ec73ec530de2fc5530c07f901c764c010025fd88f6309df1a30d5"
+    },
+    "curves/B02_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "e182d432ed8f7f1bd0fa9fe032436f4495003021fa0cd297f7e6033a6d902ff5"
+    },
+    "predictions/B02_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "b3d8a0dd9bbdf5488e430c3d61e53ad0da3bcb6953f069aca4ebaab206284634"
+    },
+    "logs/training/B03/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "8bcb081ec016486252f0c311d08150b634cba7fbc0ebe898c95e74b861f0fa3b"
+    },
+    "logs/training/B03/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/B03/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "c83da72d16ef8c7d23b428ed344e58fcde97878d7cdd34111e52df7e9d3f9247"
+    },
+    "logs/training/B03/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "e3825c5dc4204fdeb96bcc5724bc2b990254bb072967dc7e599b25e54d72c3b1"
+    },
+    "curves/B03_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "81cb79f24eb12033bf7d44a84b43abc640f3823e89dcb1c51eb156f99415ae77"
+    },
+    "predictions/B03_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "ea0b460a251615498956d220f29e730941f6766e6f92456e9486913324cf2ba1"
+    },
+    "logs/training/B04/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "085fc83b054d75c654ad1a6f4d46fe454139fd672b9060141ae8b4d13d3c2bdd"
+    },
+    "logs/training/B04/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "57630946764cdaa5c1390f1822704041beeba991ed80005d5090e63acb275110"
+    },
+    "logs/training/B04/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "1db86d2566619570646ec8a85f1202756d58d10cfcdf27344899a55aba758620"
+    },
+    "logs/training/B04/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "42b14fb0f8ec8d548567a875a4788176a41e62dbbaec97766cf04dc79d04d087"
+    },
+    "curves/B04_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "6992c299a0a7471b3cccd8663feba99ff0a3168d6be9a7b49d2f51eac93c3e63"
+    },
+    "predictions/B04_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "06882c14d34db8163b67d037f128924d420cf1c03d651db1bcc0d37ad2ccbb60"
+    },
+    "logs/training/B05/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "0a123c965651e4c2f1cde9d4aa8452f5335339185ab4690ce635712fd5b30c36"
+    },
+    "logs/training/B05/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "5a81b579bc51e40563f5aecb3ead96f47da5c835bca24cb7eb33854ecd269a34"
+    },
+    "logs/training/B05/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "73a80c333affbd6cbbc88b8aa3f700aea26e7174436df3d13bd54db513cb4d87"
+    },
+    "logs/training/B05/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "609a83198ef909ca79fb919bcb04b2ed517db6570c1a07d569973f7c3f1d4e9c"
+    },
+    "curves/B05_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "4c995cb5a03ac15d7e2782297788b9a5682bf08f04ad69c836c9953c32809e87"
+    },
+    "predictions/B05_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "5d3ecac8898e7de3fb9d24c2ff35edd01e6bbb5c77bd9f3ab60193882112a7d0"
+    },
+    "logs/training/T00/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "e11c6ec51a2e13e9e5b283df038c2aa543557018bc40345eddf331ea4a837b15"
+    },
+    "logs/training/T00/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T00/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "7abe332cdb4de3a9a028e5150aed9a383c296d9dda2a640e75f51b0d0a4a9a1d"
+    },
+    "logs/training/T00/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "4b4546cda76baa5ac8251d4b2207ec1e30c8596afa13bee43cdab045871ad8c7"
+    },
+    "curves/T00_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "a9f5ed703dccc6d18ec618288490f8af4dd4848bbdec324b59b67d7de03618a3"
+    },
+    "logs/training/T01/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "8e65a58fc00b9356b117cde7c269e922de53d99133102dc072cafd5a0886711f"
+    },
+    "logs/training/T01/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T01/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "32de9e6bbf6508b2e822d94a0bbb3ff4044aa826dd74f0f7a68bbf40c60a4bb8"
+    },
+    "logs/training/T01/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "eca852c48d8ce95e68f9f0414beab780669a15c39b9859f10b9873092c65afb1"
+    },
+    "curves/T01_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "b789a53cad6aa73d94ebe724a50283eceb83e184a7ec7e9687d01921185e22b4"
+    },
+    "predictions/T01_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "78603667e6e0d1b23d22bdde52dee4969c9d57e7812b9c390c75f475690653e2"
+    },
+    "logs/training/T02/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "9f4b6472be8ff84639143d84baf5f703636290bcde2813ef23b375dc1ffc71e0"
+    },
+    "logs/training/T02/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T02/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "7de9af330b7dbe93f2914e35b71065c0649cae599c454ece04a35ec8bd048273"
+    },
+    "logs/training/T02/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "380c244796a60c6950fb26b7d4e267c2801284e6a2b1be605e866e93a79e720c"
+    },
+    "curves/T02_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "7b1462d91615326f796502afd6d286f1365800920cade72a0d0504e5d9085c81"
+    },
+    "predictions/T02_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "83b739e293505504d0353363058704091c448f98fe041d010d6e0ea659cd7fc7"
+    },
+    "logs/training/T03/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "831e13dcad9daa6d150b27aee309d1b8b431fce7e168bde59562dbce558f74ae"
+    },
+    "logs/training/T03/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T03/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "2ea19ec2e10bfb10dc434babb00fb0faedd64a241fc55d60a6ec444c4590c49a"
+    },
+    "logs/training/T03/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "da0919a039f49098ddadaa47840ecff0c03295274e8e9bbfb20df71c107239b2"
+    },
+    "curves/T03_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "c2d46f865729611c0ef5bd7da22ab02c2a3a0176fd8a0170993f7ba405373018"
+    },
+    "predictions/T03_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "9b763af555c5dab15e8c40efb70ed3812a46bc2e6715f8a6479a991cf6b864dd"
+    },
+    "logs/training/T04/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "81c7b65b0947e984aff71fc1f39be4847214b16458ef6288725a683ac1bb08cf"
+    },
+    "logs/training/T04/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T04/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "f15be62c1ca73e00c6b63b5c10f5fde90066b8b4742058162462ed97bc5ecb92"
+    },
+    "logs/training/T04/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "1f2746ade88341cfafe5c37510410b92fefadc038fc5614e9a0c4cc4b460d7c8"
+    },
+    "curves/T04_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "95496755a9346263003a4605157864fac976a662aafb7891499b8cc147c21fa5"
+    },
+    "predictions/T04_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "fccbd9bd5cb2595d314c1133f8d442a2273fafd85700353d24e2ab36f2e5ddf7"
+    },
+    "logs/training/T05/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "fbe9296730c28a2c94a8d061457e7d02465082e7a3afc95fb1bb72a0d8d2750c"
+    },
+    "logs/training/T05/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T05/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "9426e106289b36ae8e02125993c95fa97af788df198e0d7b1e7f57122301dcf9"
+    },
+    "logs/training/T05/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "945ac8cc3a5af1f36c84651c876d77d364b285463fe74fb37643fe053da2df14"
+    },
+    "curves/T05_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "64d561649e2399b300dab11818f80637385d32b3c2c6898099fbf820fb4e1db7"
+    },
+    "predictions/T05_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "bfa039b33b0f3f2c51f420acaf7246faf83a3edaf1c7f2d1b3495f54d29fff9d"
+    },
+    "logs/training/T06/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "505195eb5af624e7174d595cc0bb109d1a16e097d396a22aaad860abf70a938e"
+    },
+    "logs/training/T06/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T06/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "77add6510f8e34c1d11313ac96cec434f9bc78a791e2d7d87df3eec605630b8e"
+    },
+    "logs/training/T06/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "7a3061c7a0e6d9ca618f4aa50b931b9e3739f464d7413fed7120cd809dd623a3"
+    },
+    "curves/T06_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "fe5e11fe83d332351277cfaa4c60dc1eceb399f0dcd05261d9329f2db97bb850"
+    },
+    "predictions/T06_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "4260ec3b0af62b58783a6970b640b37046c82bafee342b8bbbcea7843eb06a2e"
+    },
+    "logs/training/T07/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "f4842d9cf78fe2adc78c84d100b8e546ff05b566f6fd52f80fd4718f63228e25"
+    },
+    "logs/training/T07/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T07/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "0a0ed5a914ddf1359dc25e84e0007d919dcead496168ade1c9348ea6e203c4e5"
+    },
+    "logs/training/T07/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "ba078203e5ef67e2d96eb312d5483e0cf175f72853200286d4f2c614225ed9cf"
+    },
+    "curves/T07_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "e150062693318e47442be7257c193d3c1c2c1139e05fbe402e951fae2d959cd8"
+    },
+    "predictions/T07_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "2b13c2e9610fed162da71c26eac35c6cf5d277320484d5a3e50b39c588cfdd43"
+    },
+    "logs/training/T08/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "fdc03355ebe402eec31e7b51dd263d85bad164de98218b57056232ee1c4b0488"
+    },
+    "logs/training/T08/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T08/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "ccfa2b3c08e79e9d4dedafd40450ce5f091b267dc549b1bc72b18c6d892a4ae1"
+    },
+    "logs/training/T08/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "fd60323d8d4b3f587721f53d771b66644d65e8350f53d0fb5c65a4ed342ec3d2"
+    },
+    "curves/T08_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "f041ec55059c3379ffda7bfbbae4b46809cda22908ec5cb94b54e8be88616a62"
+    },
+    "predictions/T08_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "ca988a72574e261197ea7da2474de64f01d44be4d682a5fa9d0fc4346461bd86"
+    },
+    "logs/training/T09/seed0/config.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "be58fe6d00ce8536d7b008482151d2eaf0d5d64906bf6fcfcae53920d592a691"
+    },
+    "logs/training/T09/seed0/pretrained.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T09/seed0/history.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "fd1672f3984100261205fd3026d87757144b71096e6891e67bafa18a0dc76315"
+    },
+    "logs/training/T09/seed0/result.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "87dba51423272f3624364e63bfd31deeca008ae59d44ba46e31cf4f649814786"
+    },
+    "curves/T09_seed0.png": {
+      "origin": "recovered verified version 3",
+      "sha256": "ae08531d57f3c14361bf6ee7b084e733cbe3889711916423f9e56c20a6803723"
+    },
+    "predictions/T09_seed0_val.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "d7ec0adcfa539d00a801ed06821e67c75fe832dfd0ae08e4e94c1d6fba1a6dbc"
+    },
+    "logs/labels/val_subset0.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "1fa70a03a68def06c921a1dd7f0b53e96490f6dfad51d7d423bb145161ebc478"
+    },
+    "logs/labels/test_subset0.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "fb212793b988bc0455aae2e48cb9eb3168014c2f47fbdb93f5f1e284e0974f75"
+    },
+    "logs/labels/train_subset0.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "a2e63f561a545837c8cabaa276a957ccf1293ec985c9d8fbc49d67b4fd5abdb2"
+    },
+    "logs/labels/labels.csv": {
+      "origin": "recovered verified version 3",
+      "sha256": "6fb95b89fd9d384f94e185a5cab6c5da7c987649399c90618ecc60acfb0112eb"
+    },
+    "logs/prior_version3/execution_error.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "01a2470d7e81e6c70b54d8b71e3766b98aba4efa733d46ded3a5442e7c5d5bc7"
+    },
+    "logs/prior_version3/environment.json": {
+      "origin": "recovered verified version 3",
+      "sha256": "66a59bf5ce9f7d9b3a77244067578edbd56b2f99163a17e8ee7cc9e4d86c7b4a"
+    },
+    "results.xlsx": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9210226ca8f8064248e69b97f7bec7a758749b803910c650d15061fa3ebd9e45"
+    },
+    "report.md": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f3eff71f206b6855cc0042fa2c4661974986827f4ffc61299ead2356c4386fb7"
+    },
+    "accuracy_latency.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "74be8d6cc39000440b78f301a312fefc55998186b327ff335289033bed9066ea"
+    },
+    "confusion_matrix.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "626cdfa79aeef6fc65d44502a7e01ba95dd6f02f37d11cb3096bc09d2cd92198"
+    },
+    "misclassified_images.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "01f3d60d24bbb7249f9ea4a7d8900d26174549f8da6257439827f92ac55fdc99"
+    },
+    "class_distribution.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "533be7150984c4ff5b56a0cb82028c4ba4ff1437b89f305a7d7569d17dd0bfe8"
+    },
+    "sample_images.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "747c55df2fa8493bbc0a34c1ad009cec964d4f3f801332482f71e5326887ef95"
+    },
+    "augmented_images.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "651ae8b994c427241527105bc249577fe3b1b560bbc5a72187a310cec2b6d26d"
+    },
+    "error_examples.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "59257f2bb116a96854c401a6e4a650f73ac99b012192d1bc64cf343bff380d5c"
+    },
+    "logs/backbone_results.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "bc0659570cd32da9f48e4d9370511982d3aaf621863857e7ed608967178212c1"
+    },
+    "logs/training_results.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "c7f5829e4a7d5fe1ccef768fb02b7f00784634127aef891732f074cac1c32071"
+    },
+    "logs/inference_results.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "99b583b3c8c0ffc417923f44ec22001cee12df95205bb489b31832239c19ed5b"
+    },
+    "logs/final_results.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "4760ca1ddfe3006fbeb2a6759369b08a0ecb4a45d918f7383d679148ba1150a5"
+    },
+    "logs/selection_locked.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "bc2186a2d89fd038e49c7669903092b0a20f9e064216077132b0d2af4e0d09c2"
+    },
+    "logs/data_checksums.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "7d4eabd9f7bad8f5fbc61fcd1b5e059ef6197494ab7f68e231f2f99b3e01b966"
+    },
+    "logs/catalog_label_discrepancies.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9fd6f883ad438ace88a484028a255c659b1df17168fffffcab2db391559d6979"
+    },
+    "logs/split_checks.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f57e05889fd8e2bf7cddd4e56b4034b280c89a985e2f5273547b73d36287db91"
+    },
+    "logs/pipeline_checks.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "deae5bb9c6393531c3a6edcd3de18f956142312c42c0012c67ef29a1a80dedd6"
+    },
+    "logs/environment.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "66a59bf5ce9f7d9b3a77244067578edbd56b2f99163a17e8ee7cc9e4d86c7b4a"
+    },
+    "logs/recovery_manifest.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "65f3d29e22da238460158a1fd71f1caf7122655a3f359e4fad190448feb2178f"
+    },
+    "logs/execution_status.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "23095b2147dce20add28e89f17f14e75b5d5a7efb3ecc5c794e42b456d521119"
+    },
+    "logs/bn_fusion_not_applicable.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "e7dc613d4c73ac53fc6defb83a6d68ae15e3e3c09157876c15a3b55e1e9faafc"
+    },
+    "logs/runtime_README.md": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "dd060a5f4f3267e08a05fdc8a3bf6acca1d9914bff61dcb7292c707ef16e9d70"
+    },
+    "predictions/F01_seed0_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "5442c8a1b0d24a50438bc4e32a99320ee26e585a8770799f51698f08703cc905"
+    },
+    "predictions/F01_seed0_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f39d3634e2845630a32e59aaa3a15154129e8957c4752b588b75485a7bb7227c"
+    },
+    "predictions/F01uncal_seed0_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f138e53f6189839157ba706d94d23153b8c9963730d5a55d9511e3ae1068b11f"
+    },
+    "curves/F01_seed0.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "64d561649e2399b300dab11818f80637385d32b3c2c6898099fbf820fb4e1db7"
+    },
+    "predictions/F01_seed1_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "1bc73d2ec3d2e99ec814a6ff5a7bf02ee285c77d893e5c1ce9d530f18d9f9951"
+    },
+    "predictions/F01_seed1_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "27539f32028532997d578e6bac68be4481c62a9963d96778cb8938aba5146c6a"
+    },
+    "predictions/F01uncal_seed1_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9e80de9b23e251aa8f1d94e8e048ae0c225762cabc1e4950816788b2273d726d"
+    },
+    "curves/F01_seed1.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "96e5be9749896e216521acdf70ef4ba16af952c34b32f4a2b72e84e759cf33f8"
+    },
+    "predictions/F01_seed2_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "5b51080d7a15bf88f052ebfb3ae14f19516403b6a9835243d7366811bc1216f6"
+    },
+    "predictions/F01_seed2_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9685e82f72d78ce3a2788e711b46e5258fbfdeedecc14306c001a83e7657f8cc"
+    },
+    "predictions/F01uncal_seed2_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "d7cd14cb4f9e613958287b119c775c8110e7ad7fede715a7928237d668711689"
+    },
+    "curves/F01_seed2.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "bd9ba32b8a01f3695940a7e3fb6d2816106832cf0e8a9fadf667922230831fdd"
+    },
+    "predictions/T00_seed0_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "ea0b460a251615498956d220f29e730941f6766e6f92456e9486913324cf2ba1"
+    },
+    "predictions/T00_seed0_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "23d0e3e64994549d4abfaf21d40e980a9068937b03878ba00d8fbbefa9d78bf9"
+    },
+    "predictions/T00_seed1_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "3ccc97e11fac5abcf43b9cbd1058c9b092bf94efafdb7aff5055c6b198618be1"
+    },
+    "predictions/T00_seed1_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "983028a32929059a3dd75830f8da9be1e5cef8e64800d6f31dbdd23fbbc154cb"
+    },
+    "curves/T00_seed1.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "aea82afb038262e9556529475f5a359bf607bec55e140a0927a298946f170b6c"
+    },
+    "predictions/T00_seed2_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "159109a94b4c13f44610f24c62159f1d6fc1476f215457a4b7452be59095f0a9"
+    },
+    "predictions/T00_seed2_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "d1f51f57002ec895355d0359e6661945950e651d62a6cb0349ff6c0cbbe29fff"
+    },
+    "curves/T00_seed2.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "8800ece862faba630c52d63f5975f552d1eee01ee2cffc76266633d4d7fd6afb"
+    },
+    "predictions/R01_seed0_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "5442c8a1b0d24a50438bc4e32a99320ee26e585a8770799f51698f08703cc905"
+    },
+    "predictions/R01_seed0_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f39d3634e2845630a32e59aaa3a15154129e8957c4752b588b75485a7bb7227c"
+    },
+    "curves/R01_seed0.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "64d561649e2399b300dab11818f80637385d32b3c2c6898099fbf820fb4e1db7"
+    },
+    "predictions/R01_seed1_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "1bc73d2ec3d2e99ec814a6ff5a7bf02ee285c77d893e5c1ce9d530f18d9f9951"
+    },
+    "predictions/R01_seed1_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "27539f32028532997d578e6bac68be4481c62a9963d96778cb8938aba5146c6a"
+    },
+    "curves/R01_seed1.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "96e5be9749896e216521acdf70ef4ba16af952c34b32f4a2b72e84e759cf33f8"
+    },
+    "predictions/R01_seed2_val.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "5b51080d7a15bf88f052ebfb3ae14f19516403b6a9835243d7366811bc1216f6"
+    },
+    "predictions/R01_seed2_test.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9685e82f72d78ce3a2788e711b46e5258fbfdeedecc14306c001a83e7657f8cc"
+    },
+    "curves/R01_seed2.png": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "bd9ba32b8a01f3695940a7e3fb6d2816106832cf0e8a9fadf667922230831fdd"
+    },
+    "logs/training/F01/seed1/config.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f6592adc7bc19d5c7b2c4d90ffdf07bb78dc778c5afc9ac8217644df40a8b7cd"
+    },
+    "logs/training/F01/seed1/pretrained.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/F01/seed1/history.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "4619af92365124356d04259fe3e2cb6ed7af52474f85839a7d2d826640ff7a2a"
+    },
+    "logs/training/F01/seed1/result.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "cc390334de2568c3edace42f92b49f611f604faa8411bbb6cc7dd95e0fdc062a"
+    },
+    "logs/training/F01/seed2/config.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "97285d92dc2180524fc8186856ceb90745b897136f4593f382f1486b9cd46e49"
+    },
+    "logs/training/F01/seed2/pretrained.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/F01/seed2/history.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "6becd1c74f8b7f1766327562e5140e773f3d47df0a999a43516fb7381ce7d105"
+    },
+    "logs/training/F01/seed2/result.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "30dccf8ee27d24ab744acdabbeb0273aa74d4abef5eb7c130c45f478f4d98c88"
+    },
+    "logs/training/T00/seed1/config.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "0a885be2c10103a792091a51ee5e0dfa4a5b2ec63a8e75d877e1b970b5e084e1"
+    },
+    "logs/training/T00/seed1/pretrained.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T00/seed1/history.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "4448f8931d26aa25c5c165ea826debc5896f279185bada586fd58297c7d87a4a"
+    },
+    "logs/training/T00/seed1/result.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "6d1cf4ecc99adc61f4f738f11baf15457a136aa5b6bc9a4bc57c4b6350429c94"
+    },
+    "logs/training/T00/seed2/config.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "8b88f248318fdb15fdad705a8ec31a5498ef43290364c24bc920cf23ed612b22"
+    },
+    "logs/training/T00/seed2/pretrained.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "de5ac8e62462ed0264460df8459302b3959533b9f0079ecf67a7e672dc93a799"
+    },
+    "logs/training/T00/seed2/history.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "a8f372776db19fce77649171beafdaab857bbe1a7b24d8d40aef38bf67dd3215"
+    },
+    "logs/training/T00/seed2/result.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "fe07e294657c34ef18f79d1033fc18d85c59d132a3ea31791537b4fd43a698bf"
+    },
+    "logs/eval_score_F01.txt": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "2641900aa491b1f4cd1e6b294e5553dab3fe8b8a02f069f225cc7597f7dc14e2"
+    },
+    "logs/eval_out/F01_per_seed.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "8bfa1836dd2375b66a26f6955446b10a38b07c1f31a18b96e30ea29dba39cd56"
+    },
+    "logs/eval_out/F01_per_class.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "d57052fc518d9df6a89466f110c9c265e85de834696589a14f377d337fc052f3"
+    },
+    "logs/eval_out/F01_confusion_sum.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "637d0511031e0c784a66c243f3f432923878ff49e5df13e4b5845f843dc0d9ff"
+    },
+    "logs/eval_out/F01_summary.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "e829208ea36273e6e1dc407771ebdb66eafc812e95babef8ac04661271490700"
+    },
+    "logs/eval_score_T00.txt": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "706f74873d38bc9e12cef75d8d2ce8e5f97594ff6b8be4b808e775ddc534d576"
+    },
+    "logs/eval_out/T00_per_seed.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "88dee790937308cd71c7b6e40164bdea1d19919db1059d4ba3fc15eb057648dd"
+    },
+    "logs/eval_out/T00_per_class.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "b86a95b1145fdf7530a83f5e0a8b073148bee41fe56da8777e1b628d57da40a1"
+    },
+    "logs/eval_out/T00_confusion_sum.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "a7c758cacc50c96df9f5e4451c63d4fb0ffa232e18bef5e4e0f8a4640000dd87"
+    },
+    "logs/eval_out/T00_summary.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "4ae490bbcd52cf7196b0e39369ce4e57478a97fffe3ca8108921933695c69d51"
+    },
+    "logs/eval_score_R01.txt": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9862d9f38e21a97a538cea2b2a8ed6000c64f6af2c93a670e93504c194109c2c"
+    },
+    "logs/eval_out/R01_per_seed.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "27092dee41f50849c7124f05ce5c53aac5a4c52e75b4e8bc4288a7cacf37b19d"
+    },
+    "logs/eval_out/R01_per_class.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "d57052fc518d9df6a89466f110c9c265e85de834696589a14f377d337fc052f3"
+    },
+    "logs/eval_out/R01_confusion_sum.csv": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "637d0511031e0c784a66c243f3f432923878ff49e5df13e4b5845f843dc0d9ff"
+    },
+    "logs/eval_out/R01_summary.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "e829208ea36273e6e1dc407771ebdb66eafc812e95babef8ac04661271490700"
+    },
+    "logs/eval_grade.txt": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "e6b3d5d9d55c55dc6b7d26b6a23d4a608df2f048fd001cf00f5c88bbb329efac"
+    },
+    "logs/eval_out/grade_I.json": {
+      "origin": "Kaggle notebook version 5",
+      "sha256": "c596b55dcc3a2fe76133465bfc97ba90a377437e5bee9df526d4f95c12c230a1"
+    }
+  }
+}

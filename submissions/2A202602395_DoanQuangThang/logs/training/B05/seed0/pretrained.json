@@ -1,0 +1,34 @@
+{
+  "url": "https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/mobilenetv3_large_100_ra-f55367f5.pth",
+  "hf_hub_id": "timm/mobilenetv3_large_100.ra_in1k",
+  "architecture": "mobilenetv3_large_100",
+  "tag": "ra_in1k",
+  "custom_load": false,
+  "input_size": [
+    3,
+    224,
+    224
+  ],
+  "fixed_input_size": false,
+  "interpolation": "bicubic",
+  "crop_pct": 0.875,
+  "crop_mode": "center",
+  "mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "std": [
+    0.229,
+    0.224,
+    0.225
+  ],
+  "num_classes": 1000,
+  "pool_size": [
+    7,
+    7
+  ],
+  "first_conv": "conv_stem",
+  "classifier": "classifier",
+  "license": "apache-2.0"
+}

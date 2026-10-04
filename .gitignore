@@ -18,3 +18,6 @@ eval_out/
 lab_output/
 *.partial.*
 .runtime_recovery/
+
+# Keep official evaluation evidence in the completed submission.
+!submissions/2A202602395_DoanQuangThang/logs/eval_out/
