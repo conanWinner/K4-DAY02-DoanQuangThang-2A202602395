@@ -4,6 +4,8 @@ import hashlib
 import json
 import shutil
 import zipfile
+import base64
+import io
 from concurrent.futures import ThreadPoolExecutor
 from urllib.request import urlopen
 from urllib.parse import urlparse
@@ -86,6 +88,25 @@ def restore_download_manifest(manifest_path, staging):
         url = urlparse(entry['url'])
         if url.scheme != 'https' or url.hostname not in ('www.kaggleusercontent.com', 'storage.googleapis.com'):
             raise ValueError('Unexpected recovery download host')
+    if 'metadata_zip_b64' in manifest:
+        contents = base64.b64decode(manifest['metadata_zip_b64'], validate=True)
+        if hashlib.sha256(contents).hexdigest() != manifest['metadata_zip_sha256']:
+            raise ValueError('Recovery metadata checksum mismatch')
+        with zipfile.ZipFile(io.BytesIO(contents)) as archive:
+            for entry in archive.infolist():
+                if not (staging / entry.filename).resolve().is_relative_to(staging.resolve()):
+                    raise ValueError('Unsafe recovery metadata path')
+            for entry in archive.infolist():
+                if entry.is_dir():
+                    continue
+                target = staging / entry.filename
+                target.parent.mkdir(parents=True, exist_ok=True)
+                contents = archive.read(entry)
+                if target.exists() and target.read_bytes() != contents:
+                    raise ValueError(f'Refusing to overwrite different recovered data: {target}')
+                if not target.exists():
+                    with target.open('xb') as stream:
+                        stream.write(contents)
     def fetch(entry):
         target = staging / entry['path']
         if target.exists():

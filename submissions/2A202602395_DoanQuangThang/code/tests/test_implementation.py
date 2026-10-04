@@ -260,7 +260,7 @@ class TestImplementation(unittest.TestCase):
 
     def test_private_recovery_downloads_verify_hashes_and_hide_urls(self):
         from deepweeds_lab.recovery import restore_download_manifest
-        import io, hashlib
+        import io, hashlib, base64, zipfile
         payload=b'SYNTHETIC checkpoint download'
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder); manifest=root/'manifest.json'; staging=root/'staging'
@@ -268,10 +268,16 @@ class TestImplementation(unittest.TestCase):
                    'sha256':hashlib.sha256(payload).hexdigest(),
                    'url':'https://www.kaggleusercontent.com/private?token=SYNTHETIC_SECRET'}
             record={'source':'thngonquang/deepweeds-day2','version':3,'files':[entry]}
+            buffer=io.BytesIO()
+            with zipfile.ZipFile(buffer,'w') as archive:
+                archive.writestr('lab_output/config.json','{"synthetic":true}')
+            record.update(metadata_zip_b64=base64.b64encode(buffer.getvalue()).decode(),
+                          metadata_zip_sha256=hashlib.sha256(buffer.getvalue()).hexdigest())
             manifest.write_text(json.dumps(record))
             with patch('deepweeds_lab.recovery.urlopen',return_value=io.BytesIO(payload)) as download:
                 restore_download_manifest(manifest,staging)
                 self.assertEqual((staging/entry['path']).read_bytes(),payload)
+                self.assertTrue(json.loads((staging/'lab_output/config.json').read_text())['synthetic'])
                 restore_download_manifest(manifest,staging)
                 self.assertEqual(download.call_count,1)
             with patch('deepweeds_lab.recovery.urlopen',side_effect=RuntimeError(entry['url'])):
