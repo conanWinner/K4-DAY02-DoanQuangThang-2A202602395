@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib
 import json
 import shutil
+import zipfile
 from .train import write_json
 
 
@@ -65,6 +66,32 @@ def file_sha256(path):
 def restore_kaggle_input(destination, input_dir='/kaggle/input', required=True):
     candidates = [p.parent for p in Path(input_dir).rglob('training_results.json')
                   if (p.parent / 'backbone_results.json').is_file()]
+    archives = list(Path(input_dir).rglob('lab_output_v3.zip'))
+    if not candidates and len(archives) == 1:
+        staging = Path(destination).parent / 'recovered_version3'
+        with zipfile.ZipFile(archives[0]) as archive:
+            # Check every path before creating files; preserve existing staging data.
+            for entry in archive.infolist():
+                target = staging / entry.filename
+                if not target.resolve().is_relative_to(staging.resolve()):
+                    raise ValueError(f'Unsafe recovery archive path: {entry.filename}')
+            for entry in archive.infolist():
+                if entry.is_dir():
+                    continue
+                target = staging / entry.filename
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with archive.open(entry) as source:
+                    if target.exists():
+                        digest = hashlib.sha256()
+                        while block := source.read(1 << 20):
+                            digest.update(block)
+                        if file_sha256(target) != digest.hexdigest():
+                            raise ValueError(f'Refusing to overwrite different recovered data: {target}')
+                    else:
+                        with target.open('xb') as output:
+                            shutil.copyfileobj(source, output)
+        candidates = [p.parent for p in staging.rglob('training_results.json')
+                      if (p.parent / 'backbone_results.json').is_file()]
     if len(candidates) != 1:
         if not required and not candidates:
             return None

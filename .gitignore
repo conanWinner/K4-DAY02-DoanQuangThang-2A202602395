@@ -17,3 +17,4 @@ eval_out/
 .aws
 lab_output/
 *.partial.*
+.runtime_recovery/

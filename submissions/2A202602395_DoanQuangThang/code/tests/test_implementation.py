@@ -279,6 +279,19 @@ class TestImplementation(unittest.TestCase):
             self.assertTrue((destination/'prior_errors/version3_execution_error.json').exists())
             self.assertFalse((destination/'execution_error.json').exists())
             self.assertEqual(restore_completed_training(source,destination)['copied_files'],0)
+            import zipfile
+            archive_input=base/'archive_input'; archive_input.mkdir()
+            with zipfile.ZipFile(archive_input/'lab_output_v3.zip','w') as archive:
+                for path in source.rglob('*'):
+                    if path.is_file(): archive.write(path, path.relative_to(source.parent))
+            restored=restore_kaggle_input(base/'archive_working'/'lab_output',archive_input)
+            self.assertEqual(restored['completed_training_configs'],10)
+            unsafe_input=base/'unsafe_input'; unsafe_input.mkdir()
+            with zipfile.ZipFile(unsafe_input/'lab_output_v3.zip','w') as archive:
+                archive.writestr('../escape.txt','must not extract')
+            with self.assertRaisesRegex(ValueError,'Unsafe recovery archive'):
+                restore_kaggle_input(base/'unsafe_working'/'lab_output',unsafe_input)
+            self.assertFalse((base/'unsafe_working'/'escape.txt').exists())
             protected=destination/'runs/B01/seed0/best.pt'; protected.write_text('USER DATA DO NOT REPLACE')
             with self.assertRaisesRegex(ValueError,'Refusing to overwrite'):
                 restore_completed_training(source,destination)

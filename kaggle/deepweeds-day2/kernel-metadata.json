@@ -8,10 +8,10 @@
   "enable_gpu": true,
   "enable_tpu": false,
   "enable_internet": true,
-  "dataset_sources": [],
-  "competition_sources": [],
-  "kernel_sources": [
-    "thngonquang/deepweeds-day2/3"
+  "dataset_sources": [
+    "thngonquang/deepweeds-day2-checkpoints-v3"
   ],
+  "competition_sources": [],
+  "kernel_sources": [],
   "model_sources": []
 }
