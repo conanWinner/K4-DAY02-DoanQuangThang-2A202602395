@@ -76,3 +76,5 @@ Chạy đầy đủ có thể kéo dài nhiều giờ; nếu đạt giới hạn
 - Báo cáo có số đếm split, loss kiểm tra pipeline và giải thích F01/R01 trong lịch sử phiên bản 5. Không tuyên bố việc sửa code làm lần chạy cũ đạt yêu cầu một forward test mỗi cấu hình/seed.
 - Notebook công khai chỉ tải Git và nguồn công khai; không chứa URL tải riêng tư, không phụ thuộc input của chủ tài khoản khi chạy mới.
 - Điểm phần I là 17/20 theo công cụ gốc; điểm toàn bài do giảng viên chấm.
+
+Kiểm chứng bản nộp hiện tại: Kaggle phiên bản 8 `COMPLETE`, notebook công khai và tải source được không cần đăng nhập. Năm kiểm tra chống test trùng đạt cả local và Kaggle; các ô kết quả đọc bản lưu phiên bản 5. Bằng chứng tổng hợp: `logs/submission_audit.json`. Chế độ chạy mới không được chạy toàn bộ lại trong lần hoàn thiện này.

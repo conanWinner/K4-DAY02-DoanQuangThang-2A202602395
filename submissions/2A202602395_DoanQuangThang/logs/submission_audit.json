@@ -1,0 +1,54 @@
+{
+  "checked_at_utc": "2026-10-04T15:43:07.392968+00:00",
+  "status": "ready_with_disclosed_historical_limitation",
+  "kaggle": {
+    "url": "https://www.kaggle.com/code/thngonquang/deepweeds-day2",
+    "version": 8,
+    "status": "COMPLETE",
+    "is_private": false,
+    "dataset_sources": [],
+    "anonymous_source_api_http_status": 200,
+    "saved_cell_sources_match_git": true,
+    "mode": "display preserved version 5 results and run standard-library regression tests"
+  },
+  "tests": {
+    "final_alias_regressions_local": 5,
+    "final_alias_regressions_kaggle": 5,
+    "all_passed": true,
+    "full_training_rerun": false
+  },
+  "artifacts": {
+    "prediction_files": 35,
+    "training_histories": 19,
+    "curves": 23,
+    "excel_sheets": 7,
+    "original_artifact_hashes_checked": 180,
+    "metric_sheets_unchanged": [
+      "Backbones",
+      "Training",
+      "Inference",
+      "Final",
+      "PerClass",
+      "Latency"
+    ],
+    "original_report_excel_preserved": "logs/prior_version5_submission/"
+  },
+  "summary": {
+    "includes_top_10_and_T00": true,
+    "T05_latency_source": "I00 p50, exact selected seed-0 checkpoint",
+    "T00_latency_source": "final baseline seed-0 p50",
+    "T04_T09_latency": "not separately measured; explicit label and recorded training cost"
+  },
+  "reproduction": {
+    "fresh_run": "RUN_EXPERIMENTS=True, RESUME_FROM_INPUT=False; official public image/CSV sources",
+    "optional_resume": "RESUME_FROM_INPUT=True; requires deliberately attached prior output; missing input stops"
+  },
+  "historical_limitation": "Kaggle version 5 forwarded test separately for identical F01 and R01 recipes. All three seed prediction CSV pairs are byte-identical. This history remains preserved and disclosed; current code aliases matching recipes without another forward.",
+  "test_selection_policy": "No new model selection, tuning, or test inference in this amendment.",
+  "original_eval_sha256": "7a9f86781ac219747ea502b642db8fa8ff2e8d5796fdad9a658729546c0f4cc0",
+  "grade_I": {
+    "total": 17,
+    "maximum": 20,
+    "scope": "original evaluator proposal, not instructor-confirmed whole-lab grade"
+  }
+}
