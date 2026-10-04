@@ -4,6 +4,8 @@
 
 Notebook riêng tư: https://www.kaggle.com/code/thngonquang/deepweeds-day2
 
+Nguồn phục hồi riêng tư: [checkpoint phiên bản 3](https://www.kaggle.com/datasets/thngonquang/deepweeds-day2-checkpoints-v3) lưu 132 tệp, gồm đủ checkpoint/cấu hình/log của 15 lần huấn luyện đã hoàn tất. [Nguồn tải trực tiếp](https://www.kaggle.com/datasets/thngonquang/deepweeds-day2-recovery-links-v3) được dùng ở notebook phiên bản 5; phiên bản dataset mới cũng có ảnh gốc đã xác thực MD5. Code xác thực SHA-256 từng tệp trước khi khôi phục; các URL tải riêng tư nằm trong dataset, không đưa lên Git hay in vào log.
+
 ## Cách chạy
 
 Notebook `code/lab_day2.ipynb` đã đóng gói toàn bộ code và bản `eval.py` gốc (kiểm tra SHA-256). Bật GPU và Internet, chạy toàn bộ. Không cần clone repo hoặc sửa đường dẫn. Bản đưa lên Kaggle nằm ở `kaggle/deepweeds-day2/` từ thư mục gốc repo.
