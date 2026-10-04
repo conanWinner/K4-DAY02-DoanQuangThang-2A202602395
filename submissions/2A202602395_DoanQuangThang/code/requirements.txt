@@ -1,0 +1,10 @@
+# Kaggle supplies torch/torchvision: retain its GPU-compatible pair.
+timm==1.0.30
+fvcore==0.1.5.post20221221
+pandas>=2.2,<4
+numpy>=1.26,<3
+scipy>=1.11,<2
+matplotlib>=3.8,<4
+openpyxl==3.1.5
+tabulate>=0.9,<1
+scikit-learn>=1.4,<2
