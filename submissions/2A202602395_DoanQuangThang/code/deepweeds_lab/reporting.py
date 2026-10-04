@@ -131,6 +131,8 @@ def create_artifacts(root, backbones, training, inference, finals, selection):
                 f"macro-F1 test = {rt['macro_f1_test']:.4f} ± {rt['macro_f1_test_std']:.4f}.") if rt else 'Chưa có cấu hình đo được p95 ≤100 ms; không tuyên bố đáp ứng thời gian thực.'
     if rt and np.mean([r['p95_ms'] for r in finals if r['exp_id']=='R01']) > 100:
         realtime += ' Đo vòng cuối vượt 100 ms; chưa đạt ngân sách thời gian thực.'
+    discrepancy_path = root / 'catalog_label_discrepancies.json'
+    discrepancy = json.loads(discrepancy_path.read_text()) if discrepancy_path.exists() else {'count': 0, 'differences': []}
     text = f'''# Báo cáo Lab Day 2 — DeepWeeds
 
 ## Tóm tắt
@@ -141,6 +143,7 @@ Mức cải thiện macro-F1 so với T00: {delta:+.4f}. {conclusion}
 
 ## Dữ liệu và thiết lập
 Dùng nguyên CSV fold 0 của tác giả; train/val/test không giao nhau và đủ 17.509 ảnh. Số đếm thật nằm trong `split_checks.json`. Chỉ dùng train cho trọng số; val cho mọi lựa chọn và nhiệt độ; test chỉ ở vòng cuối sau `selection_locked.json`.
+Đối chiếu catalog `labels.csv` và fold CSV: có {discrepancy['count']} nhãn khác nhau, chi tiết `{discrepancy['differences']}`. Giữ nguyên nhãn CSV fold 0 theo đề, không sửa hay lọc ảnh; vì vậy số lớp trong fold có thể lệch Table 1 tương ứng. Checksum CSV trong `data_checksums.json`.
 ![Phân bố lớp](class_distribution.png)
 ![Ảnh mẫu train](sample_images.png)
 Kiểm tra pipeline với mạng tuyến tính nhỏ, độc lập với kết quả backbone, nằm trong `pipeline_checks.json`; ảnh sau augmentation ở `augmented_images.png`.

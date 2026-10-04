@@ -39,6 +39,23 @@ def download(url, path):
             time.sleep(2 ** attempt)
 
 
+
+def compare_catalog(frames, original, root):
+    """Preserve official fold labels; disclose upstream catalog discrepancies without relabeling."""
+    actual = pd.concat(frames, ignore_index=True)
+    if original.Filename.duplicated().any() or set(actual.Filename) != set(original.Filename):
+        raise ValueError('Official catalog and split filenames disagree')
+    comparison = actual[['Filename', 'Label']].merge(original[['Filename', 'Label']], on='Filename',
+                         suffixes=('_split', '_catalog'), validate='one_to_one')
+    differences = comparison[comparison.Label_split != comparison.Label_catalog].to_dict('records')
+    write_json(Path(root) / 'catalog_label_discrepancies.json', {
+        'policy': 'Use unmodified official fold CSV labels; catalog is used for class names only',
+        'count': len(differences), 'differences': differences})
+    if differences:
+        print('UPSTREAM LABEL DISCREPANCIES (fold labels preserved):', differences, flush=True)
+    return differences
+
+
 def prepare(root):
     root = Path(root); data = root / 'data'; labels = data / 'labels'
     archive = data / 'images.zip'
@@ -65,9 +82,8 @@ def prepare(root):
     images = sample.parent
     frames = dataset.load_split(labels)
     result = dataset.check_split(*frames, images)
-    actual = pd.concat(frames, ignore_index=True)
-    if set(actual.Filename) != set(original.Filename) or not actual.set_index('Filename').Label.sort_index().equals(original.set_index('Filename').Label.sort_index()):
-        raise ValueError('Official labels and split labels disagree')
+    compare_catalog(frames, original, root)
+    write_json(root / 'data_checksums.json', {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in labels.glob('*.csv')})
     write_json(root / 'split_checks.json', result)
     import matplotlib
     matplotlib.use('Agg')

@@ -6,7 +6,7 @@ Notebook riêng tư: https://www.kaggle.com/code/thngonquang/deepweeds-day2
 
 Notebook `code/lab_day2.ipynb` đã đóng gói toàn bộ code và bản `eval.py` gốc (kiểm tra SHA-256). Bật GPU và Internet, chạy toàn bộ. Không cần clone repo hoặc sửa đường dẫn. Bản đưa lên Kaggle nằm ở `kaggle/deepweeds-day2/` từ thư mục gốc repo.
 
-- Dùng nguyên DeepWeeds fold 0: tải ảnh Zenodo và kiểm MD5; tải CSV từ GitHub tác giả. File split gốc chỉ có `Filename,Label`; code không yêu cầu cột Species.
+- Dùng nguyên DeepWeeds fold 0: tải ảnh Zenodo và kiểm MD5; tải CSV từ GitHub tác giả. File split gốc chỉ có `Filename,Label`; code không yêu cầu cột Species. Nguồn hiện có một nhãn khác giữa catalog và fold (`20170714-110407-3.jpg`: fold=0, catalog=1); giữ nguyên nhãn fold theo đề và ghi `catalog_label_discrepancies.json`/checksum CSV vào báo cáo.
 - Nền chung: 10 epoch, batch 32, ảnh 224, ImageNet finetune, AdamW, warmup một epoch + cosine, CE, AMP; no weight decay cho norm/bias. Chuẩn hoá theo trọng số thực sự tải.
 - B01–B05: ResNet-50, ResNeXt-50, ConvNeXt-Tiny, DeiT-Small (độ phân giải động), MobileNetV3-Large.
 - T00–T09: nền; scratch/frozen/finetune; augmentation basic/color/CutMix; CE/label smoothing/focal/weighted CE; EMA; một kết hợp. So sánh từng thay đổi với T00 trên backbone thắng vòng sàng.

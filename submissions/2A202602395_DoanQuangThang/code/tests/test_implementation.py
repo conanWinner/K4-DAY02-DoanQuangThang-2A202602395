@@ -222,6 +222,21 @@ class TestImplementation(unittest.TestCase):
             mean,std=np.mean([r['macro_f1_test'] for r in final_rows if r['exp_id']=='F01']),np.std([r['macro_f1_test'] for r in final_rows if r['exp_id']=='F01'],ddof=1)
             self.assertAlmostEqual(summary.macro_f1_test, mean); self.assertAlmostEqual(summary.macro_f1_test_std, std)
 
+    def test_upstream_label_discrepancy_is_reported_without_relabeling(self):
+        from deepweeds_lab.prepare import compare_catalog
+        frames = [pd.DataFrame({'Filename':['a.jpg'],'Label':[0]}),
+                  pd.DataFrame({'Filename':['b.jpg'],'Label':[7]}),
+                  pd.DataFrame({'Filename':['c.jpg'],'Label':[8]})]
+        original = pd.DataFrame({'Filename':['a.jpg','b.jpg','c.jpg'],'Label':[1,7,8]})
+        before = [d.copy(deep=True) for d in frames]
+        with tempfile.TemporaryDirectory() as folder:
+            differences = compare_catalog(frames, original, folder)
+            self.assertEqual(differences, [{'Filename':'a.jpg','Label_split':0,'Label_catalog':1}])
+            self.assertEqual(json.loads((Path(folder)/'catalog_label_discrepancies.json').read_text())['count'],1)
+            for a,b in zip(frames,before): pd.testing.assert_frame_equal(a,b)
+            with self.assertRaisesRegex(ValueError, 'filenames'):
+                compare_catalog(frames, original.iloc[:-1], folder)
+
 
 if __name__ == '__main__':
     unittest.main()
