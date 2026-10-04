@@ -8,7 +8,7 @@ Nguồn phục hồi riêng tư: [checkpoint phiên bản 3](https://www.kaggle.
 
 ## Cách chạy
 
-Notebook `code/lab_day2.ipynb` đã đóng gói toàn bộ code và bản `eval.py` gốc (kiểm tra SHA-256). Bật GPU và Internet, chạy toàn bộ. Không cần clone repo hoặc sửa đường dẫn. Bản đưa lên Kaggle nằm ở `kaggle/deepweeds-day2/` từ thư mục gốc repo.
+Notebook `code/lab_day2.ipynb` dùng `git clone`, checkout commit `902702cea102fb1605094b2813d32266a4914c3c` và dùng trực tiếp code Python cùng `eval.py` gốc. Bật Internet. Mặc định `RUN_EXPERIMENTS = False` mở kết quả đã chạy xong ở phiên bản 5; đổi thành `True` và bật GPU để chạy thí nghiệm. Notebook không chứa PAYLOAD. Bản đưa lên Kaggle nằm ở `kaggle/deepweeds-day2/` từ thư mục gốc repo.
 
 - Dùng nguyên DeepWeeds fold 0: tải ảnh Zenodo và kiểm MD5; tải CSV từ GitHub tác giả. File split gốc chỉ có `Filename,Label`; code không yêu cầu cột Species. Nguồn hiện có một nhãn khác giữa catalog và fold (`20170714-110407-3.jpg`: fold=0, catalog=1); giữ nguyên nhãn fold theo đề và ghi `catalog_label_discrepancies.json`/checksum CSV vào báo cáo.
 - Nền chung: 10 epoch, batch 32, ảnh 224, ImageNet finetune, AdamW, warmup một epoch + cosine, CE, AMP; no weight decay cho norm/bias. Chuẩn hoá theo trọng số thực sự tải.
@@ -38,7 +38,7 @@ Kaggle lưu trong `/kaggle/working/lab_output/`:
 
 Trong bản Git, `report.md`, `results.xlsx`, `curves/` và `predictions/` nằm ngay ở thư mục này. Các JSON môi trường/cấu hình chốt/kết quả và đánh giá nằm trong `logs/`; cấu hình, nguồn trọng số và history ở `logs/training/<exp_id>/seed<k>/`; CSV fold gốc ở `logs/labels/`. Tên đường dẫn trong báo cáo gốc tương ứng với Output Kaggle. Checkpoint và toàn bộ dữ liệu ảnh vẫn nằm ngoài Git.
 
-Đã đối chiếu CSV bằng `eval.py` gốc và kiểm tra số trong báo cáo/Excel: 35 file dự đoán, 19 history đủ 10 epoch, 23 biểu đồ, 7 sheet Excel. Bằng chứng tại `logs/local_verification.json`; nguồn và SHA-256 từng sản phẩm trong `logs/artifact_manifest.json`. Notebook lưu trên Kaggle có toàn bộ cell source và mã code đóng gói khớp với notebook Git; 18 kiểm tra code đã đạt trên GPU Kaggle trước thí nghiệm.
+Đã đối chiếu CSV bằng `eval.py` gốc và kiểm tra số trong báo cáo/Excel: 35 file dự đoán, 19 history đủ 10 epoch, 23 biểu đồ, 7 sheet Excel. Bằng chứng tại `logs/local_verification.json`; nguồn và SHA-256 từng sản phẩm trong `logs/artifact_manifest.json`. Notebook phiên bản 5 lưu trên Kaggle đã được đối chiếu cell source và code đóng gói với bản Git tại commit `902702c`; 18 kiểm tra code đã đạt trên GPU Kaggle trước thí nghiệm.
 
 ## Code và kiểm tra
 
@@ -51,13 +51,13 @@ Môi trường Python >=3.10, torch >=2.3 và torchvision tương thích; giữ 
 python -m unittest discover -s tests -v
 python -m unittest discover -s submissions/2A202602395_DoanQuangThang/code/tests -v
 
-# Cập nhật notebook tự chứa sau khi sửa code:
+# Tạo notebook clone Git (cập nhật revision trong build_notebook.py khi đổi code):
 python submissions/2A202602395_DoanQuangThang/code/build_notebook.py
 
 # Chạy trên máy GPU (chỉ giữ test ở vòng chung kết):
 PYTHONPATH=submissions/2A202602395_DoanQuangThang/code:. python -m deepweeds_lab.experiments --output lab_output --epochs 10 --batch-size 32
 
-# Đẩy notebook lên và chạy toàn bộ:
+# Đẩy notebook lên; chế độ mặc định chỉ mở kết quả đã hoàn tất:
 kaggle kernels push -p kaggle/deepweeds-day2 -t 43200
 kaggle kernels status thngonquang/deepweeds-day2
 ```

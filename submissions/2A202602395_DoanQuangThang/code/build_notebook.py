@@ -1,5 +1,4 @@
-"""Build a self-contained Kaggle notebook from versioned code; no Git/network bootstrapping."""
-import base64
+"""Build a readable Kaggle notebook that clones an immutable Git revision."""
 import hashlib
 import json
 from pathlib import Path
@@ -17,30 +16,36 @@ def cell(kind, text):
 
 
 def build():
-    payload = {'eval.py': base64.b64encode((ROOT / 'eval.py').read_bytes()).decode(),
-               'requirements.txt': base64.b64encode((CODE / 'requirements.txt').read_bytes()).decode()}
-    for path in sorted((CODE / 'deepweeds_lab').glob('*.py')):
-        payload['deepweeds_lab/' + path.name] = base64.b64encode(path.read_bytes()).decode()
-    for path in sorted((CODE / 'tests').glob('*.py')):
-        payload['tests/' + path.name] = base64.b64encode(path.read_bytes()).decode()
-    digest = hashlib.sha256((ROOT / 'eval.py').read_bytes()).hexdigest()
-    setup = '''import base64, hashlib, json, os, sys, subprocess
+    revision = '902702cea102fb1605094b2813d32266a4914c3c'
+    paths = [ROOT / 'eval.py', CODE / 'requirements.txt',
+             *sorted((CODE / 'deepweeds_lab').glob('*.py')),
+             *sorted((CODE / 'tests').glob('*.py'))]
+    hashes = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+              for path in paths}
+    setup = f'''import hashlib, json, sys, subprocess
 from pathlib import Path
-SOURCE_DIR = Path('/kaggle/working/deepweeds_source')
-SOURCE_DIR.mkdir(parents=True, exist_ok=True)
-PAYLOAD = ''' + repr(payload) + '''
-for name, encoded in PAYLOAD.items():
-    path = SOURCE_DIR / name
-    path.parent.mkdir(parents=True, exist_ok=True)
-    contents = base64.b64decode(encoded)
-    if path.exists() and path.read_bytes() != contents:
-        raise RuntimeError(f'Existing source differs: {path}; preserve it and use a new output directory')
-    if not path.exists():
-        path.write_bytes(contents)
-assert hashlib.sha256((SOURCE_DIR / 'eval.py').read_bytes()).hexdigest() == ''' + repr(digest) + '''
-subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', '-r', str(SOURCE_DIR / 'requirements.txt')], check=True)
-sys.path.insert(0, str(SOURCE_DIR))
-print('Source ready:', SOURCE_DIR, flush=True)
+
+# False: open verified results from version 5. True: install dependencies and run experiments.
+RUN_EXPERIMENTS = False
+REPO_URL = 'https://github.com/conanWinner/K4-DAY02-DoanQuangThang-2A202602395.git'
+CODE_REVISION = '{revision}'
+REPO_DIR = Path('/kaggle/working/deepweeds_repo_' + CODE_REVISION[:12])
+if not REPO_DIR.exists():
+    subprocess.run(['git', 'clone', '--no-checkout', REPO_URL, str(REPO_DIR)], check=True)
+    subprocess.run(['git', '-C', str(REPO_DIR), 'checkout', '--detach', CODE_REVISION], check=True)
+actual_revision = subprocess.check_output(['git', '-C', str(REPO_DIR), 'rev-parse', 'HEAD'], text=True).strip()
+if actual_revision != CODE_REVISION:
+    raise RuntimeError('Existing repository has another revision; preserve it and use a new directory')
+if subprocess.check_output(['git', '-C', str(REPO_DIR), 'status', '--porcelain'], text=True).strip():
+    raise RuntimeError('Existing repository has local changes; preserve them before running')
+SUBMISSION_DIR = REPO_DIR / 'submissions/2A202602395_DoanQuangThang'
+SOURCE_DIR = SUBMISSION_DIR / 'code'
+sys.path[:0] = [str(SOURCE_DIR), str(REPO_DIR)]
+if RUN_EXPERIMENTS:
+    subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', '-r', str(SOURCE_DIR / 'requirements.txt')], check=True)
+print('Git revision:', actual_revision)
+print('Code directory:', SOURCE_DIR)
+print('Run experiments:', RUN_EXPERIMENTS)
 '''
     verify = '''import importlib.metadata as metadata, platform
 import torch
@@ -59,6 +64,7 @@ if not torch.cuda.is_available():
 # CPU arithmetic checks and a tiny synthetic train only; not DeepWeeds results.
 subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', str(SOURCE_DIR / 'tests'), '-v'], check=True, cwd=SOURCE_DIR)
 '''
+    verify = "if RUN_EXPERIMENTS:\n" + ''.join('    ' + line + '\n' for line in verify.splitlines()) + "else:\n    print('Verified version 5 results: no new training requested')\n"
     execute = '''from deepweeds_lab.experiments import execute
 # All required stages; test is locked until backbone/training/inference selection completes.
 # Kaggle output retains per-epoch last.pt/best.pt/history.csv. Reuse the same configuration
@@ -71,18 +77,19 @@ except Exception as exc:
     write_json(OUTPUT_DIR / 'execution_error.json', failure)
     raise
 '''
+    execute = "if RUN_EXPERIMENTS:\n" + ''.join('    ' + line + '\n' for line in execute.splitlines()) + "else:\n    print('Training skipped; displaying completed version 5 report')\n"
     cells = [cell('markdown', '''# Lab Day 2 — DeepWeeds | Doan Quang Thang — 2A202602395
 
 Notebook chạy đầy đủ bài lab, không chứa số liệu giả. Mọi lựa chọn dựa trên val; chỉ mở test sau khi chốt cấu hình.
 
-**Bản sửa lỗi:** tự khôi phục output phiên bản 3 từ dataset checkpoint riêng tư, giữ nguyên checkpoint của 5 backbone và 10 cấu hình đã chạy. Nếu không tìm thấy đủ output, dừng để tránh chạy lại toàn bộ.
+**Code tải trực tiếp bằng git clone**, cố định commit đã tạo kết quả phiên bản 5. Mặc định `RUN_EXPERIMENTS = False` để xem kết quả đã hoàn tất. Đổi thành `True` khi muốn chạy thí nghiệm; khi đó khôi phục 15 lần huấn luyện từ dataset checkpoint riêng tư trước khi tiếp tục.
 
 **Luồng:** kiểm tra dữ liệu → 5 backbone → 3 trục huấn luyện và EMA/kết hợp → 7 phương pháp suy luận ngoài mốc → chung kết và mốc với seed 0/1/2 → Excel, biểu đồ, báo cáo và đánh giá bằng eval.py gốc.
 
 Bật **GPU** và **Internet**. Cấu hình nền 10 epoch, batch 32 cho mọi backbone. Chạy toàn bộ có thể cần nhiều giờ; thời gian thực được lưu theo từng epoch. Không thay đổi cấu hình sau khi đã xem test.
 
 Nguồn: https://github.com/conanWinner/K4-DAY02-DoanQuangThang-2A202602395
-'''), cell('markdown', '## 0. Nạp code và cài thư viện\nCode được đóng gói từ repo; không phụ thuộc đường dẫn clone.'), cell('code', setup),
+'''), cell('markdown', '## 0. Clone Git và chọn chế độ chạy\nCode Python nằm trực tiếp trong repo, không có PAYLOAD. Chỉ cài thư viện khi RUN_EXPERIMENTS = True.'), cell('code', setup),
         cell('markdown', '## 1. Kiểm tra môi trường và tính đúng của code\nCác fixture tổng hợp chỉ dùng cho kiểm tra, không đưa vào báo cáo DeepWeeds.'), cell('code', verify),
         cell('markdown', '''## 2–5. Chạy các vòng thí nghiệm
 
@@ -92,14 +99,17 @@ Nguồn: https://github.com/conanWinner/K4-DAY02-DoanQuangThang-2A202602395
 - F01/T00: cấu hình cuối và nền với ≥3 seed; R01 nếu có phương pháp p95 ≤100 ms. Nhiệt độ khớp trên val của từng seed trước test. Mỗi cấu hình/seed dùng một lần forward trên test (TTA gồm các view đã khai báo); tái sử dụng logits cho so sánh hiệu chuẩn.
 - Báo cáo sinh từ log, prediction CSV; eval.py gốc tính lại toàn bộ test.
 '''), cell('code', execute), cell('markdown', '## 6. Xem kết quả thật\nTải `lab_output` trong Output. Dataset và checkpoint không đưa lên Git.'), cell('code', '''from IPython.display import display, Markdown
-print((OUTPUT_DIR / 'execution_status.json').read_text())
-display(Markdown((OUTPUT_DIR / 'report.md').read_text()))
-print('Excel:', OUTPUT_DIR / 'results.xlsx')
-print('Prediction files:', len(list((OUTPUT_DIR / 'predictions').glob('*.csv'))))
+RESULT_DIR = OUTPUT_DIR if RUN_EXPERIMENTS else SUBMISSION_DIR
+STATUS_FILE = RESULT_DIR / 'execution_status.json' if RUN_EXPERIMENTS else RESULT_DIR / 'logs/execution_status.json'
+print('Result origin:', 'current execution' if RUN_EXPERIMENTS else 'completed Kaggle version 5, archived in Git')
+print(STATUS_FILE.read_text())
+display(Markdown((RESULT_DIR / 'report.md').read_text()))
+print('Excel:', RESULT_DIR / 'results.xlsx')
+print('Prediction files:', len(list((RESULT_DIR / 'predictions').glob('*.csv'))))
 ''')]
     nb = {'nbformat': 4, 'nbformat_minor': 5, 'metadata': {
         'kernelspec': {'display_name': 'Python 3', 'language': 'python', 'name': 'python3'},
-        'language_info': {'name': 'python'}, 'deepweeds_source_sha256': {k: hashlib.sha256(base64.b64decode(v)).hexdigest() for k, v in payload.items()}}, 'cells': cells}
+        'language_info': {'name': 'python'}, 'deepweeds_source_revision': revision, 'deepweeds_source_sha256': hashes}, 'cells': cells}
     for index, c in enumerate(cells):
         c['id'] = f'lab2-{index:02d}'
     TARGET.mkdir(parents=True, exist_ok=True)
@@ -109,7 +119,7 @@ print('Prediction files:', len(list((OUTPUT_DIR / 'predictions').glob('*.csv')))
     meta = json.loads(metadata_file.read_text())
     meta.update(enable_gpu=True, enable_internet=True, is_private=True)
     metadata_file.write_text(json.dumps(meta, indent=2))
-    print('Built self-contained notebook:', TARGET / 'lab_day2.ipynb')
+    print('Built Git-clone notebook:', TARGET / 'lab_day2.ipynb')
 
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@
   "enable_tpu": false,
   "enable_internet": true,
   "dataset_sources": [
-    "thngonquang/deepweeds-day2-recovery-links-v3"
+    "thngonquang/deepweeds-day2-checkpoints-v3"
   ],
   "competition_sources": [],
   "kernel_sources": [],
