@@ -15,8 +15,7 @@ def cell(kind, text):
     return result
 
 
-def build():
-    revision = '902702cea102fb1605094b2813d32266a4914c3c'
+def build(revision):
     paths = [ROOT / 'eval.py', CODE / 'requirements.txt',
              *sorted((CODE / 'deepweeds_lab').glob('*.py')),
              *sorted((CODE / 'tests').glob('*.py'))]
@@ -27,6 +26,8 @@ from pathlib import Path
 
 # False: open verified results from version 5. True: install dependencies and run experiments.
 RUN_EXPERIMENTS = False
+RESUME_FROM_INPUT = False  # Optional: attach prior output; never silently fall back to retraining.
+RUN_CHECKS = True
 REPO_URL = 'https://github.com/conanWinner/K4-DAY02-DoanQuangThang-2A202602395.git'
 CODE_REVISION = '{revision}'
 REPO_DIR = Path('/kaggle/working/deepweeds_repo_' + CODE_REVISION[:12])
@@ -53,8 +54,11 @@ from deepweeds_lab.train import write_json
 OUTPUT_DIR = Path('/kaggle/working/lab_output')
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 from deepweeds_lab.recovery import restore_kaggle_input
-# Version 3 completed all training before the inference-row bug. Resume its immutable output.
-restore_kaggle_input(OUTPUT_DIR, required=True)
+# Fresh runs require only public image/CSV sources. Recovery is an explicit optional mode.
+if RESUME_FROM_INPUT:
+    restore_kaggle_input(OUTPUT_DIR, required=True)
+else:
+    print('Fresh run: official fold 0; no private recovery input required')
 versions = {name: metadata.version(name) for name in ('torch', 'torchvision', 'timm', 'numpy', 'pandas', 'scipy', 'matplotlib', 'openpyxl', 'fvcore')}
 versions.update(python=platform.python_version(), gpu=torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')
 write_json(OUTPUT_DIR / 'environment.json', versions)
@@ -65,6 +69,11 @@ if not torch.cuda.is_available():
 subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', str(SOURCE_DIR / 'tests'), '-v'], check=True, cwd=SOURCE_DIR)
 '''
     verify = "if RUN_EXPERIMENTS:\n" + ''.join('    ' + line + '\n' for line in verify.splitlines()) + "else:\n    print('Verified version 5 results: no new training requested')\n"
+    checks = '''if RUN_CHECKS:
+    # Standard-library regression tests only: no training or CUDA required.
+    subprocess.run([sys.executable, '-m', 'unittest', 'discover', '-s', str(SOURCE_DIR / 'tests'),
+                    '-p', 'test_final_alias.py', '-v'], check=True, cwd=REPO_DIR)
+'''
     execute = '''from deepweeds_lab.experiments import execute
 # All required stages; test is locked until backbone/training/inference selection completes.
 # Kaggle output retains per-epoch last.pt/best.pt/history.csv. Reuse the same configuration
@@ -82,7 +91,7 @@ except Exception as exc:
 
 Notebook chạy đầy đủ bài lab, không chứa số liệu giả. Mọi lựa chọn dựa trên val; chỉ mở test sau khi chốt cấu hình.
 
-**Code tải trực tiếp bằng git clone**, cố định commit đã tạo kết quả phiên bản 5. Mặc định `RUN_EXPERIMENTS = False` để xem kết quả đã hoàn tất. Đổi thành `True` khi muốn chạy thí nghiệm; khi đó khôi phục 15 lần huấn luyện từ dataset checkpoint riêng tư trước khi tiếp tục.
+**Code tải trực tiếp bằng git clone**, cố định commit chứa code đã sửa và kết quả phiên bản 5 được bảo toàn. Mặc định `RUN_EXPERIMENTS = False` để xem kết quả đã hoàn tất. Đổi thành `True` khi muốn chạy mới từ ảnh/CSV công khai, không cần dataset riêng tư. `RESUME_FROM_INPUT = True` chỉ khi chủ động gắn output cũ để phục hồi; thiếu input sẽ dừng.
 
 **Luồng:** kiểm tra dữ liệu → 5 backbone → 3 trục huấn luyện và EMA/kết hợp → 6 phương pháp suy luận ngoài mốc (gộp BN không áp dụng cho ConvNeXt) → chung kết và mốc với seed 0/1/2 → Excel, biểu đồ, báo cáo và đánh giá bằng eval.py gốc.
 
@@ -90,7 +99,7 @@ Bật **GPU** và **Internet**. Cấu hình nền 10 epoch, batch 32 cho mọi b
 
 Nguồn: https://github.com/conanWinner/K4-DAY02-DoanQuangThang-2A202602395
 '''), cell('markdown', '## 0. Clone Git và chọn chế độ chạy\nCode Python nằm trực tiếp trong repo, không có PAYLOAD. Chỉ cài thư viện khi RUN_EXPERIMENTS = True.'), cell('code', setup),
-        cell('markdown', '## 1. Kiểm tra môi trường và tính đúng của code\nCác fixture tổng hợp chỉ dùng cho kiểm tra, không đưa vào báo cáo DeepWeeds.'), cell('code', verify),
+        cell('markdown', '## 1. Kiểm tra môi trường và tính đúng của code\nCác fixture tổng hợp chỉ dùng cho kiểm tra, không đưa vào báo cáo DeepWeeds.'), cell('code', checks), cell('code', verify),
         cell('markdown', '''## 2–5. Chạy các vòng thí nghiệm
 
 - B01–B05: ResNet-50, ResNeXt-50, ConvNeXt-Tiny, DeiT-Small, MobileNetV3-Large; cùng nền và seed.
@@ -114,7 +123,7 @@ print('Prediction files:', len(list((RESULT_DIR / 'predictions').glob('*.csv')))
         ('6.4. Kết quả cuối qua ba seed', 'Final', 'Kết quả test sau khi chốt cấu hình; có dòng tổng hợp mean và std.'),
         ('6.5. Chỉ số từng lớp', 'PerClass', 'Precision, recall và F1 của cấu hình cuối và mốc.'),
         ('6.6. Độ trễ', 'Latency', 'p50/p95/p99 và thông lượng theo batch, GPU và dtype.'),
-        ('6.7. Tổng hợp cấu hình', 'Summary', 'Bảng tổng hợp từ workbook đã xuất sau thí nghiệm.'),
+        ('6.7. Tổng hợp cấu hình', 'Summary', 'Top 10 và mốc T00; nguồn/loại độ trễ được ghi rõ. Chưa đo riêng không được điền số suy đoán.'),
     ]
     cells.append(cell('code', "import pandas as pd\npd.set_option('display.max_columns', None)\npd.set_option('display.precision', 4)\n"))
     for title, sheet, explanation in sections:
@@ -136,10 +145,16 @@ print('Prediction files:', len(list((RESULT_DIR / 'predictions').glob('*.csv')))
     (CODE / 'lab_day2.ipynb').write_text(json.dumps(nb, ensure_ascii=False, indent=2), encoding='utf-8')
     metadata_file = TARGET / 'kernel-metadata.json'
     meta = json.loads(metadata_file.read_text())
-    meta.update(enable_gpu=True, enable_internet=True, is_private=True)
+    meta.update(enable_gpu=True, enable_internet=True, is_private=False, dataset_sources=[], kernel_sources=[])
     metadata_file.write_text(json.dumps(meta, indent=2))
     print('Built Git-clone notebook:', TARGET / 'lab_day2.ipynb')
 
 
 if __name__ == '__main__':
-    build()
+    import argparse
+    import subprocess
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--revision', default=None, help='Published Git commit to clone; defaults to HEAD')
+    args = parser.parse_args()
+    revision = args.revision or subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip()
+    build(revision)

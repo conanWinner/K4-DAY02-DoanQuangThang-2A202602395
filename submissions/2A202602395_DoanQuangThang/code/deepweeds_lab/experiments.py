@@ -17,6 +17,7 @@ from .train import Config, run, run_dir, write_json, load_checkpoint_model
 from .inference import predict_strategy, fit_temperature, apply_temperature, fuse_conv_bn
 from .benchmark import strategy_latency
 from .prepare import prepare, pipeline_checks
+from .final_alias import reuse_final_predictions
 
 
 def release():
@@ -237,7 +238,10 @@ def execute(root='lab_output', epochs=10, batch_size=32, seeds=(0, 1, 2)):
         finals.append(final_predictions(final_cfg, choice['method'], 'F01', root))
         finals.append(final_predictions(base_cfg, 'single', 'T00', root))
         if realtime:
-            finals.append(final_predictions(final_cfg, realtime['method'], 'R01', root))
+            if realtime['method'] == choice['method']:
+                finals.append(reuse_final_predictions(final_cfg, realtime['method'], 'F01', 'R01', root))
+            else:
+                finals.append(final_predictions(final_cfg, realtime['method'], 'R01', root))
         write_json(root / 'final_results.json', finals); release()
     # All test results are now fixed. Reporting never changes the selected configuration.
     from .reporting import create_artifacts

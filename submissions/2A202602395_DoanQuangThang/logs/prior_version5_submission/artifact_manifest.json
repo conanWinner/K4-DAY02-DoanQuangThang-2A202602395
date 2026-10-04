@@ -383,16 +383,12 @@
       "sha256": "66a59bf5ce9f7d9b3a77244067578edbd56b2f99163a17e8ee7cc9e4d86c7b4a"
     },
     "results.xlsx": {
-      "origin": "submission presentation amendment; measured metrics unchanged; source Kaggle version 5",
-      "sha256": "1bb93b2ed11bbb84769bbd03de8ff37655da5e7ef0691b03a0c645d817b92779",
-      "original_sha256": "9210226ca8f8064248e69b97f7bec7a758749b803910c650d15061fa3ebd9e45",
-      "original_copy": "logs/prior_version5_submission/results.xlsx"
+      "origin": "Kaggle notebook version 5",
+      "sha256": "9210226ca8f8064248e69b97f7bec7a758749b803910c650d15061fa3ebd9e45"
     },
     "report.md": {
-      "origin": "submission presentation amendment; measured metrics unchanged; source Kaggle version 5",
-      "sha256": "c6b5a339b8d4142abd2572a60609ec1963a49c3f8016d1fc634eac278fa60260",
-      "original_sha256": "f3eff71f206b6855cc0042fa2c4661974986827f4ffc61299ead2356c4386fb7",
-      "original_copy": "logs/prior_version5_submission/report.md"
+      "origin": "Kaggle notebook version 5",
+      "sha256": "f3eff71f206b6855cc0042fa2c4661974986827f4ffc61299ead2356c4386fb7"
     },
     "accuracy_latency.png": {
       "origin": "Kaggle notebook version 5",

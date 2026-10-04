@@ -110,10 +110,3 @@ Các thất bại nếu có được lưu trong `inference_failures.json`. Khôn
 ## Phụ lục
 Cấu hình mọi lần chạy: `runs/<exp_id>/seed<k>/config.json`; log: `history.csv`; trọng số tốt nhất: `best.pt`; biểu đồ: `curves/`; dự đoán: `predictions/`. Nguồn trọng số và tag: `pretrained.json`. Đánh giá đối chiếu: `eval_score_*.txt`, `eval_grade.txt`, `eval_out/`.
 Notebook: https://www.kaggle.com/code/thngonquang/deepweeds-day2
-
-## Bổ sung kiểm tra trước khi nộp
-
-- **Bằng chứng dữ liệu:** train 10.501, val 3.501, test 3.507 ảnh; ba giao bằng 0. Loss kiểm tra pipeline ban đầu 2.2003, gần ln(9) = 2.1972; sau 3 bước trên batch nhỏ còn 0.0000321. Đây là kiểm tra bằng mạng tuyến tính nhỏ, không phải kết quả backbone. File đối chiếu trong bản Git ở `logs/split_checks.json` và `logs/pipeline_checks.json`.
-- **Hạn chế của phiên bản 5:** F01 và R01 đều chọn ConvNeXt-Tiny/T05/fivecrop trên val trước test. Chương trình cũ tạo cache theo tên báo cáo, nên forward test riêng cho F01 và R01 ở từng seed. CSV test F01/R01 giống nhau từng byte ở cả ba seed; không chọn giữa hai lần để lấy điểm tốt hơn. Vì vậy không khẳng định lần chạy này đạt yêu cầu nghiêm ngặt một forward test cho mỗi cấu hình/seed. Code sửa sau lần chạy dùng chung logits, dự đoán và độ trễ khi hai tên chỉ cùng một cấu hình; sửa code không làm thay đổi lịch sử đã chạy.
-- **Sheet Summary:** giữ top 10 theo macro-F1 val và thêm mốc T00. T05 dùng p50 của I00 vì đúng checkpoint T05/seed0 và single-view; T00 dùng p50 đo trong vòng cuối seed0. T04/T09 chưa có phép đo suy luận riêng, ghi rõ “Chưa đo riêng” và báo chi phí thật bằng `params_m`, `gmac`, `train_seconds_per_epoch`. Các dòng backbone/training dùng p50, các dòng inference dùng p95; cột `latency_percentile` và `latency_source` chỉ rõ nguồn, không coi chúng là cùng một phép đo. Không suy ra độ trễ riêng của T04/T09 từ model khác.
-- **Lưu bản gốc:** báo cáo và Excel gốc của Kaggle phiên bản 5 nằm trong `logs/prior_version5_submission/`; bản trình bày bổ sung giữ nguyên chỉ số test, dự đoán và log huấn luyện.

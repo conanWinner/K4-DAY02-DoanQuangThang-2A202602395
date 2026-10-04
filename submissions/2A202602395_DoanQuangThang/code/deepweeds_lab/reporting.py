@@ -6,6 +6,7 @@ import pandas as pd
 from PIL import Image
 from .dataset import CLASS_NAMES
 from .train import write_json
+from .summary import build_summary
 
 
 def flat(row):
@@ -51,15 +52,7 @@ def create_artifacts(root, backbones, training, inference, finals, selection):
         latency.append(dict(configuration=r['exp_id'], **{k: r[k] for k in
             ('gpu', 'dtype', 'batch', 'img_size', 'p50', 'p95', 'p99', 'images_per_s', 'torch', 'preprocessing', 'fused_bn')}))
         latency.append(dict(configuration=r['exp_id'], **r['latency_batch32']))
-    summary_rows = []
-    for r in backbones + training:
-        summary_rows.append(dict(exp_id=r['exp_id'], stage='training', backbone=r['backbone'],
-                                 macro_f1_val=r['macro_f1_val'], top1_val=r['top1_val'],
-                                 latency_ms=r.get('latency_ms', np.nan)))
-    for r in inference:
-        summary_rows.append(dict(exp_id=r['exp_id'], stage='inference', backbone=selection['backbone'],
-                                 macro_f1_val=r['macro_f1'], top1_val=r['top1'], latency_ms=r['p95']))
-    summary_frame = pd.DataFrame(summary_rows).sort_values('macro_f1_val', ascending=False).head(10)
+    summary_frame = build_summary(backbones, training, inference, finals, selection)
     final_frame = pd.concat([f, pd.DataFrame(aggregate)], ignore_index=True)
     with pd.ExcelWriter(root / 'results.xlsx', engine='openpyxl') as writer:
         sheets = {'Backbones': b, 'Training': t, 'Inference': i, 'Final': final_frame,
@@ -189,6 +182,20 @@ Các thất bại nếu có được lưu trong `inference_failures.json`. Khôn
 Cấu hình mọi lần chạy: `runs/<exp_id>/seed<k>/config.json`; log: `history.csv`; trọng số tốt nhất: `best.pt`; biểu đồ: `curves/`; dự đoán: `predictions/`. Nguồn trọng số và tag: `pretrained.json`. Đánh giá đối chiếu: `eval_score_*.txt`, `eval_grade.txt`, `eval_out/`.
 Notebook: https://www.kaggle.com/code/thngonquang/deepweeds-day2
 '''
+    reused = [r for r in finals if r.get('test_forward_reused')]
+    text += '\n## Nguồn số đo và tái sử dụng đánh giá\n'
+    text += ('Sheet Summary giữ top 10 và thêm mốc T00. Cột latency_source ghi nguồn số đo; '
+             'latency_percentile phân biệt p50 của backbone/training và p95 của inference. '
+             'Chưa đo riêng được ghi rõ; params_m, gmac và train_seconds_per_epoch '
+             'là chi phí đã thu từ log, không thay cho độ trễ suy luận.\n')
+    if reused:
+        text += ('F01/R01 trùng cấu hình: R01 tái sử dụng logits, dự đoán và độ trễ của F01, '
+                 'không forward test lần nữa. Các dòng reused_from/test_forward_reused/latency_reused '
+                 'trong final_results.json ghi rõ nguồn.\n')
+    elif any(r['exp_id'] == 'R01' and r['method'] == selection['inference'] for r in finals):
+        text += ('Kết quả phục hồi cũ có F01/R01 trùng cấu hình nhưng cache riêng theo tên. '
+                 'Không khẳng định lịch sử này chỉ có một forward test cho mỗi cấu hình/seed; '
+                 'bản sửa tránh lặp lại ở lần chạy mới.\n')
     (root / 'report.md').write_text(text, encoding='utf-8')
     (root / 'README.md').write_text('''# DeepWeeds Day2 — kết quả chạy thật
 Notebook: https://www.kaggle.com/code/thngonquang/deepweeds-day2
